@@ -1441,8 +1441,8 @@ wxBoxSizer* MainFrame::create_side_tools()
                 m_print_enable = get_enable_print_status();
                 m_print_btn->Enable(m_print_enable);
                 if (m_print_enable) {
-                    if (m_print_select == ePrintAll)
-                        wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_ALL));
+                    // if (m_print_select == ePrintAll)
+                        // wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_ALL));
                     if (m_print_select == ePrintPlate)
                         wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_PLATE));
                 }
@@ -1526,19 +1526,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     p->Dismiss();
                     });
 
-                SideButton* print_all_btn = new SideButton(p, _L("Print all"), "");
-                print_all_btn->SetCornerRadius(0);
-                print_all_btn->Bind(wxEVT_BUTTON, [this, p](wxCommandEvent&) {
-                    m_print_btn->SetLabel(_L("Print all"));
-                    m_print_select = ePrintAll;
-                    m_print_enable = get_enable_print_status();
-                    m_print_btn->Enable(m_print_enable);
-                    this->Layout();
-                    p->Dismiss();
-                    });
-
                 p->append_button(print_plate_btn);
-                p->append_button(print_all_btn);
             }
 
             p->Popup(m_print_btn);

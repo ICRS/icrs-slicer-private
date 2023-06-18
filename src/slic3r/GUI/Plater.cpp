@@ -100,6 +100,7 @@
 #include "MsgDialog.hpp"
 #include "ProjectDirtyStateManager.hpp"
 #include "Gizmos/GLGizmoSimplify.hpp" // create suggestion notification
+#include "ScannerDialog.hpp"
 
 // BBS
 #include "Widgets/ProgressDialog.hpp"
@@ -1696,6 +1697,7 @@ struct Plater::priv
     MenuFactory menus;
 
     SelectMachineDialog* m_select_machine_dlg = nullptr;
+    ScannerDialog* m_scanner_dlg = nullptr;
     SendToPrinterDialog* m_send_to_sdcard_dlg = nullptr;
     PublishDialog *m_publish_dlg = nullptr;
 
@@ -1910,6 +1912,7 @@ struct Plater::priv
     bool init_collapse_toolbar();
 
     // BBS
+    void hide_scanner_dlg() { m_scanner_dlg->EndModal(wxID_OK); }
     void hide_select_machine_dlg() { m_select_machine_dlg->EndModal(wxID_OK); }
     void hide_send_to_printer_dlg() { m_send_to_sdcard_dlg->EndModal(wxID_OK); }
 
@@ -2503,7 +2506,7 @@ Plater::priv::priv(Plater *q, MainFrame *main_frame)
         q->Bind(EVT_GLTOOLBAR_SLICE_ALL, &priv::on_action_slice_all, this);
         q->Bind(EVT_GLTOOLBAR_PRINT_PLATE, &priv::on_action_print_plate, this);
         q->Bind(EVT_GLTOOLBAR_SELECT_SLICED_PLATE, &priv::on_action_select_sliced_plate, this);
-        q->Bind(EVT_GLTOOLBAR_PRINT_ALL, &priv::on_action_print_all, this);
+        // q->Bind(EVT_GLTOOLBAR_PRINT_ALL, &priv::on_action_print_all, this);
         q->Bind(EVT_GLTOOLBAR_EXPORT_GCODE, &priv::on_action_export_gcode, this);
         q->Bind(EVT_GLTOOLBAR_SEND_GCODE, &priv::on_action_send_gcode, this);
         q->Bind(EVT_GLTOOLBAR_EXPORT_SLICED_FILE, &priv::on_action_export_sliced_file, this);
@@ -6198,6 +6201,12 @@ void Plater::priv::on_action_print_plate(SimpleEvent&)
     ////BBS check login status
     //if (!wxGetApp().check_login()) return;
 
+    if (!m_scanner_dlg) 
+    {
+        m_scanner_dlg = new ScannerDialog(q);
+    }
+    m_scanner_dlg->ShowModal();
+
 
     //BBS
     if (!m_select_machine_dlg) m_select_machine_dlg = new SelectMachineDialog(q);
@@ -6224,6 +6233,9 @@ void Plater::priv::on_action_select_sliced_plate(wxCommandEvent &evt)
     if (q != nullptr) {
         BOOST_LOG_TRIVIAL(debug) << __FUNCTION__ << ":received select sliced plate event\n" ;
     }
+
+    //Todo: insert card scanner here
+    
     q->select_sliced_plate(evt.GetInt());
 }
 
