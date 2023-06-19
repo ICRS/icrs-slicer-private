@@ -6207,11 +6207,13 @@ void Plater::priv::on_action_print_plate(SimpleEvent&)
     }
     m_scanner_dlg->ShowModal();
 
-
-    //BBS
-    if (!m_select_machine_dlg) m_select_machine_dlg = new SelectMachineDialog(q);
-    m_select_machine_dlg->prepare(partplate_list.get_curr_plate_index());
-    m_select_machine_dlg->ShowModal();
+    if(m_scanner_dlg->get_confirm())
+    {
+        //BBS
+        if (!m_select_machine_dlg) m_select_machine_dlg = new SelectMachineDialog(q);
+        m_select_machine_dlg->prepare(partplate_list.get_curr_plate_index());
+        m_select_machine_dlg->ShowModal();
+    }
 }
 
 
