@@ -1994,13 +1994,7 @@ void PrintConfigDef::init_fff_params()
                      "This setting controls which layer being ironed");
     def->enum_keys_map = &ConfigOptionEnum<IroningType>::get_enum_values();
     def->enum_values.push_back("no ironing");
-    def->enum_values.push_back("top");
-    def->enum_values.push_back("topmost");
-    def->enum_values.push_back("solid");
     def->enum_labels.push_back(L("No ironing"));
-    def->enum_labels.push_back(L("Top surfaces"));
-    def->enum_labels.push_back(L("Topmost surface"));
-    def->enum_labels.push_back(L("All solid layer"));
     def->mode = comAdvanced;
     def->set_default_value(new ConfigOptionEnum<IroningType>(IroningType::NoIroning));
 
