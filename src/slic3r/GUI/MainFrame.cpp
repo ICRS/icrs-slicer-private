@@ -14,6 +14,8 @@
 #include <wx/debug.h>
 #include <wx/utils.h> 
 
+#include <ctime>
+
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/log/trivial.hpp>
 
@@ -1010,9 +1012,6 @@ void MainFrame::init_tabpanel() {
     });
     m_printer_view->Hide();
 
-    m_project = new ProjectPanel(m_tabpanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-    m_project->SetBackgroundColour(*wxWHITE);
-    m_tabpanel->AddPage(m_project, _L("Project"), std::string("tab_auxiliary_avtice"), std::string("tab_auxiliary_avtice"));
     if (m_plater) {
         // load initial config
         auto full_config = wxGetApp().preset_bundle->full_config();
@@ -1438,8 +1437,25 @@ wxBoxSizer* MainFrame::create_side_tools()
                 // TODO: signin here;
                 m_plater->apply_background_progress();
                 // check valid of print
-                m_print_enable = get_enable_print_status();
+                auto m_time_estimate_mode = PrintEstimatedStatistics::ETimeMode::Normal;
+
+                double total_time_all_plates = 0.0;
+                PartPlateList& plate_list = wxGetApp().plater()->get_partplate_list();
+                for (auto plate : plate_list.get_nonempty_plate_list())
+                {
+                    auto plate_print_statistics = plate->get_slice_result()->print_statistics;
+                    auto plate_extruders = plate->get_extruders(true);
+                    const PrintEstimatedStatistics::Mode& plate_time_mode = plate_print_statistics.modes[static_cast<size_t>(m_time_estimate_mode)];
+                    total_time_all_plates += plate_time_mode.time;
+                }
+                
+                std::time_t curr_time = std::time(NULL);
+	            std::tm *tm_local = std::localtime(&curr_time);
+                int hour = tm_local->tm_hour;
+
+                m_print_enable = get_enable_print_status() && ((total_time_all_plates < 3 * 60 * 60) || ((hour > 22) && (total_time_all_plates < 9 * 60 * 60)));
                 m_print_btn->Enable(m_print_enable);
+                
                 if (m_print_enable) {
                     // if (m_print_select == ePrintAll)
                         // wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_ALL));

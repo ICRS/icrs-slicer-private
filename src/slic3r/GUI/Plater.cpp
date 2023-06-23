@@ -6201,13 +6201,13 @@ void Plater::priv::on_action_print_plate(SimpleEvent&)
     ////BBS check login status
     //if (!wxGetApp().check_login()) return;
 
-    if (!m_scanner_dlg) 
-    {
-        m_scanner_dlg = new ScannerDialog(q);
-    }
-    m_scanner_dlg->ShowModal();
+    // if (!m_scanner_dlg) 
+    // {
+    //     m_scanner_dlg = new ScannerDialog(q);
+    // }
+    // m_scanner_dlg->ShowModal();
 
-    if(m_scanner_dlg->get_confirm())
+    // if(m_scanner_dlg->get_confirm())
     {
         //BBS
         if (!m_select_machine_dlg) m_select_machine_dlg = new SelectMachineDialog(q);
