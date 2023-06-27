@@ -62,6 +62,8 @@
 #include "ConfigWizard.hpp"
 #include "Widgets/WebView.hpp"
 
+#include "PrintTimeAlert.hpp"
+
 #ifdef _WIN32
 #include <dbt.h>
 #include <shlobj.h>
@@ -1451,6 +1453,11 @@ wxBoxSizer* MainFrame::create_side_tools()
                 
                 m_print_enable = get_enable_print_status() && (isLessThan3hours || afterHoursPrint);
                 m_print_btn->Enable(m_print_enable);
+                
+                if(!m_print_enable) {
+                    auto m_scanner_dlg = new PrintTimeAlert();
+                    m_scanner_dlg->ShowModal();
+                }
                 
                 if (m_print_enable) {
                     // if (m_print_select == ePrintAll)
