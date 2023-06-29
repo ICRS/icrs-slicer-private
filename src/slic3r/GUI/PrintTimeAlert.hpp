@@ -29,15 +29,15 @@ class PrintTimeAlert : public DPIDialog
     PrintTimeAlert() : DPIDialog(static_cast<wxWindow *>(wxGetApp().mainframe), wxID_ANY, _L("Scan Time Alert"), wxDefaultPosition, wxDefaultSize, wxCAPTION | wxCLOSE_BOX) 
     {
 
-        // wxBoxSizer *main_sizer;
-        // main_sizer = new wxBoxSizer(wxHORIZONTAL);
+        wxBoxSizer *main_sizer;
+        main_sizer = new wxBoxSizer(wxHORIZONTAL);
 
-        // main_sizer->Add(FromDIP(40), 0);
+        main_sizer->Add(FromDIP(40), 0);
 
-        // wxBoxSizer *sizer_top;
-        // sizer_top = new wxBoxSizer(wxVERTICAL);
+        wxBoxSizer *sizer_top;
+        sizer_top = new wxBoxSizer(wxVERTICAL);
 
-        // sizer_top->Add(0, FromDIP(40));
+        sizer_top->Add(0, FromDIP(40));
 
         // std::string icon_path = (boost::format("%1%/images/BambuStudioTitle.ico") % resources_dir()).str();
 
@@ -46,8 +46,8 @@ class PrintTimeAlert : public DPIDialog
         m_body->SetFont(Label::Body_15);
         m_body->SetForegroundColour(wxColour(50, 58, 61));
         m_body->Wrap(-1);
-        // sizer_top->Add(m_body, 0, wxALL, 0);
-        // sizer_top->Add(0, FromDIP(10));
+        sizer_top->Add(m_body, 0, wxALL, 0);
+        sizer_top->Add(0, FromDIP(10));
 
         StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(0, 40, 220), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0, 150, 136), StateColor::Normal));
     
@@ -65,10 +65,12 @@ class PrintTimeAlert : public DPIDialog
 
         // wxBoxSizer *sizer_connect;
         // sizer_connect = new wxBoxSizer(wxHORIZONTAL);
-        // sizer_connect->Add(m_button_confirm, 0, wxALL | wxALIGN_CENTER_VERTICAL, 0);
+        sizer_top->Add(m_button_confirm, 0, wxALL | wxALIGN_CENTER_VERTICAL, 0);
 
-        // sizer_connect->Add(FromDIP(20), 0);
+        sizer_top->Add(FromDIP(20), 0);
+        main_sizer->Add(sizer_top, 0);
 
+        SetSizer(main_sizer);
         SetBackgroundColour(*wxWHITE);
     }
 

@@ -115,9 +115,9 @@ bool Print::invalidate_state_by_config_options(const ConfigOptionResolver & /* n
         "sparse_infill_acceleration",
         "internal_solid_infill_acceleration"
         // BBS
-        "cool_plate_temp_initial_layer",
-        "eng_plate_temp_initial_layer",
-        "hot_plate_temp_initial_layer",
+        // "cool_plate_temp_initial_layer",
+        // "eng_plate_temp_initial_layer",
+        // "hot_plate_temp_initial_layer",
         "textured_plate_temp_initial_layer",
         "gcode_add_line_number",
         "layer_change_gcode",
@@ -213,9 +213,6 @@ bool Print::invalidate_state_by_config_options(const ConfigOptionResolver & /* n
             || opt_key == "single_extruder_multi_material"
             || opt_key == "nozzle_temperature"
             // BBS
-            || opt_key == "cool_plate_temp"
-            || opt_key == "eng_plate_temp"
-            || opt_key == "hot_plate_temp"
             || opt_key == "textured_plate_temp"
             || opt_key == "enable_prime_tower"
             || opt_key == "prime_tower_width"

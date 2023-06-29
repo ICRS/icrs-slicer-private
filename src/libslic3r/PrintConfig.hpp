@@ -193,9 +193,6 @@ enum OverhangFanThreshold {
 // BBS
 enum BedType {
     btDefault = 0,
-    btPC,
-    btEP,
-    btPEI,
     btPTE,
     btCount
 };
@@ -223,20 +220,11 @@ static std::string bed_type_to_gcode_string(const BedType type)
     std::string type_str;
 
     switch (type) {
-    case btPC:
-        type_str = "cool_plate";
-        break;
-    case btEP:
-        type_str = "eng_plate";
-        break;
-    case btPEI:
-        type_str = "hot_plate";
-        break;
     case btPTE:
         type_str = "textured_plate";
         break;
     default:
-        type_str = "unknown";
+        type_str = "textured_plate";
         break;
     }
 
@@ -245,36 +233,28 @@ static std::string bed_type_to_gcode_string(const BedType type)
 
 static std::string get_bed_temp_key(const BedType type)
 {
-    if (type == btPC)
-        return "cool_plate_temp";
-
-    if (type == btEP)
-        return "eng_plate_temp";
-
-    if (type == btPEI)
-        return "hot_plate_temp";
 
     if (type == btPTE)
         return "textured_plate_temp";
 
-    return "";
+    return "textured_plate_temp";
 }
 
 static std::string get_bed_temp_1st_layer_key(const BedType type)
 {
-    if (type == btPC)
-        return "cool_plate_temp_initial_layer";
+    // if (type == btPC)
+    //     return "cool_plate_temp_initial_layer";
 
-    if (type == btEP)
-        return "eng_plate_temp_initial_layer";
+    // if (type == btEP)
+    //     return "eng_plate_temp_initial_layer";
 
-    if (type == btPEI)
-        return "hot_plate_temp_initial_layer";
+    // if (type == btPEI)
+    //     return "hot_plate_temp_initial_layer";
 
-    if (type == btPTE)
-        return "textured_plate_temp_initial_layer";
+    // if (type == btPTE)
+    return "textured_plate_temp_initial_layer";
 
-    return "";
+    // return "";
 }
 
 #define CONFIG_OPTION_ENUM_DECLARE_STATIC_MAPS(NAME) \
@@ -903,13 +883,13 @@ PRINT_CONFIG_CLASS_DERIVED_DEFINE(
     ((ConfigOptionPoints,             bed_exclude_area))
     // BBS
     ((ConfigOptionEnum<BedType>,      curr_bed_type))
-    ((ConfigOptionInts,               cool_plate_temp))
-    ((ConfigOptionInts,               eng_plate_temp))
-    ((ConfigOptionInts,               hot_plate_temp)) // hot is short for high temperature
+    // ((ConfigOptionInts,               cool_plate_temp))
+    // ((ConfigOptionInts,               eng_plate_temp))
+    // ((ConfigOptionInts,               hot_plate_temp)) // hot is short for high temperature
     ((ConfigOptionInts,               textured_plate_temp))
-    ((ConfigOptionInts,               cool_plate_temp_initial_layer))
-    ((ConfigOptionInts,               eng_plate_temp_initial_layer))
-    ((ConfigOptionInts,               hot_plate_temp_initial_layer)) // hot is short for high temperature
+    // ((ConfigOptionInts,               cool_plate_temp_initial_layer))
+    // ((ConfigOptionInts,               eng_plate_temp_initial_layer))
+    // ((ConfigOptionInts,               hot_plate_temp_initial_layer)) // hot is short for high temperature
     ((ConfigOptionInts,               textured_plate_temp_initial_layer))
     ((ConfigOptionBools,              enable_overhang_bridge_fan))
     ((ConfigOptionInts,               overhang_fan_speed))

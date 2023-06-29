@@ -707,7 +707,7 @@ void ConfigOptionsGroup::reload_config()
 #if 0
     // BBS
     auto bed_type_field = this->get_field("bed_type");
-    int default_bed_type = BedType::btPC;
+    int default_bed_type = BedType::btPTE;
     if (bed_type_field != nullptr) {
         auto iter = m_opt_map.find("bed_temperature");
         const ConfigOptionDef& option = m_options.at("bed_temperature").opt;
@@ -904,7 +904,7 @@ void ConfigOptionsGroup::refresh()
 boost::any ConfigOptionsGroup::config_value(const std::string& opt_key, int opt_index, bool deserialize) {
 
     if (opt_key == "bed_type")
-        return boost::any((int)BedType::btPC);
+        return boost::any((int)BedType::btPTE);
 
 	if (deserialize) {
 		// Want to edit a vector value(currently only multi - strings) in a single edit box.

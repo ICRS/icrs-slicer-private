@@ -174,20 +174,20 @@ void PartPlate::init()
 
 BedType PartPlate::get_bed_type(bool load_from_project) const
 {
-	std::string bed_type_key = "curr_bed_type";
+	// std::string bed_type_key = "curr_bed_type";
+	return BedType::btPTE;
+	// if (m_config.has(bed_type_key)) {
+	// 	BedType bed_type = m_config.opt_enum<BedType>(bed_type_key);
+	// 	return bed_type;
+	// }
 
-	if (m_config.has(bed_type_key)) {
-		BedType bed_type = m_config.opt_enum<BedType>(bed_type_key);
-		return bed_type;
-	}
+	// if (!load_from_project || !m_plater || !wxGetApp().preset_bundle)
+	// 	return btDefault;
 
-	if (!load_from_project || !m_plater || !wxGetApp().preset_bundle)
-		return btDefault;
-
-	DynamicConfig& proj_cfg = wxGetApp().preset_bundle->project_config;
-	if (proj_cfg.has(bed_type_key))
-		return proj_cfg.opt_enum<BedType>(bed_type_key);
-	return btDefault;
+	// DynamicConfig& proj_cfg = wxGetApp().preset_bundle->project_config;
+	// if (proj_cfg.has(bed_type_key))
+	// 	return proj_cfg.opt_enum<BedType>(bed_type_key);
+	// return btDefault;
 }
 
 void PartPlate::set_bed_type(BedType bed_type)
@@ -204,7 +204,7 @@ void PartPlate::set_bed_type(BedType bed_type)
         if (proj_cfg.has(bed_type_key))
             old_real_bed_type = proj_cfg.opt_enum<BedType>(bed_type_key);
     }
-    BedType new_real_bed_type = bed_type;
+    BedType new_real_bed_type = BedType::btPTE;
     if (bed_type == BedType::btDefault) {
         DynamicConfig& proj_cfg = wxGetApp().preset_bundle->project_config;
         if (proj_cfg.has(bed_type_key))
@@ -217,7 +217,7 @@ void PartPlate::set_bed_type(BedType bed_type)
     if (bed_type == BedType::btDefault)
         m_config.erase(bed_type_key);
     else
-        m_config.set_key_value("curr_bed_type", new ConfigOptionEnum<BedType>(bed_type));
+        m_config.set_key_value("curr_bed_type", new ConfigOptionEnum<BedType>(BedType::btPTE));
 }
 
 void PartPlate::reset_bed_type()
@@ -4772,20 +4772,20 @@ void PartPlateList::init_bed_type_info()
 	BedTextureInfo::TexturePart pte_part1( 6,  40,  12, 200, "bbl_bed_pte_left.svg");
 	BedTextureInfo::TexturePart pte_part2(72, -11, 150,  12, "bbl_bed_pte_bottom.svg");
 
-	bed_texture_info[btPC].parts.push_back(pc_part1);
-	bed_texture_info[btPC].parts.push_back(pc_part2);
-	bed_texture_info[btEP].parts.push_back(ep_part1);
-	bed_texture_info[btEP].parts.push_back(ep_part2);
-	bed_texture_info[btPEI].parts.push_back(pei_part1);
-	bed_texture_info[btPEI].parts.push_back(pei_part2);
+	// bed_texture_info[btPC].parts.push_back(pc_part1);
+	// bed_texture_info[btPC].parts.push_back(pc_part2);
+	// bed_texture_info[btEP].parts.push_back(ep_part1);
+	// bed_texture_info[btEP].parts.push_back(ep_part2);
+	// bed_texture_info[btPEI].parts.push_back(pei_part1);
+	// bed_texture_info[btPEI].parts.push_back(pei_part2);
 	bed_texture_info[btPTE].parts.push_back(pte_part1);
 	bed_texture_info[btPTE].parts.push_back(pte_part2);
 
-	for (int i = 0; i < btCount; i++) {
-		for (int j = 0; j < bed_texture_info[i].parts.size(); j++) {
-			bed_texture_info[i].parts[j].update_buffer();
-		}
+	// for (int i = 0; i < btCount; i++) {
+	for (int j = 0; j < bed_texture_info[btPTE].parts.size(); j++) {
+		bed_texture_info[btPTE].parts[j].update_buffer();
 	}
+	// }
 }
 
 void PartPlateList::load_bedtype_textures()
