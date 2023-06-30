@@ -1050,7 +1050,7 @@ void Sidebar::update_all_preset_comboboxes()
             p_mainframe->load_printer_url(url);
         }
 
-        m_bed_type_list->SelectAndNotify(btPEI-1);
+        m_bed_type_list->SelectAndNotify(btPTE);
         m_bed_type_list->Disable();
     }
 
