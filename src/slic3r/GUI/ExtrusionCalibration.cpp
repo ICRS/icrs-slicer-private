@@ -824,7 +824,8 @@ void ExtrusionCalibration::update_filament_info()
 
 int ExtrusionCalibration::get_bed_temp(DynamicPrintConfig* config)
 {
-    BedType curr_bed_type = BedType(m_comboBox_bed_type->GetSelection() + btDefault + 1);
+    // BedType curr_bed_type = BedType(m_comboBox_bed_type->GetSelection() + btDefault + 1);
+    BedType curr_bed_type = BedType(btPTE);
     const ConfigOptionInts* opt_bed_temp_ints = config->option<ConfigOptionInts>(get_bed_temp_key(curr_bed_type));
     if (opt_bed_temp_ints) {
         return opt_bed_temp_ints->get_at(0);
