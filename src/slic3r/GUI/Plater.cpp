@@ -109,6 +109,7 @@
 #include "ProjectDirtyStateManager.hpp"
 #include "Gizmos/GLGizmoSimplify.hpp" // create suggestion notification
 #include "Gizmos/GizmoObjectManipulation.hpp"
+// #include "ScannerDialog.hpp"
 
 // BBS
 #include "Widgets/ProgressDialog.hpp"
@@ -1046,7 +1047,7 @@ void Sidebar::update_all_preset_comboboxes()
         if (config && !config->get("curr_bed_type").empty()) {
             int bed_type_idx = 0;
             std::string str_bed_type = config->get("curr_bed_type");
-            int bed_type_value = (int)btPC;
+            int bed_type_value = (int)btPTE;
             try {
                 bed_type_value = atoi(str_bed_type.c_str());
             } catch(...) {}
@@ -1077,7 +1078,7 @@ void Sidebar::update_all_preset_comboboxes()
         }
         p_mainframe->set_print_button_to_default(print_btn_type);
 
-        m_bed_type_list->SelectAndNotify(btPTE);
+        m_bed_type_list->SelectAndNotify(btPTE-1);
         m_bed_type_list->Disable();
     }
 
@@ -1770,6 +1771,7 @@ struct Plater::priv
     MenuFactory menus;
 
     SelectMachineDialog* m_select_machine_dlg = nullptr;
+    // ScannerDialog* m_scanner_dlg = nullptr;
     SendToPrinterDialog* m_send_to_sdcard_dlg = nullptr;
     PublishDialog *m_publish_dlg = nullptr;
 
@@ -2003,6 +2005,8 @@ struct Plater::priv
             m_select_machine_dlg->prepare_mode();
     }
 
+    // void hide_scanner_dlg() { m_scanner_dlg->EndModal(wxID_OK); }
+    //void hide_select_machine_dlg() { m_select_machine_dlg->EndModal(wxID_OK); }
     void hide_send_to_printer_dlg() { m_send_to_sdcard_dlg->EndModal(wxID_OK); }
 
     void update_preview_bottom_toolbar();
@@ -2605,7 +2609,7 @@ Plater::priv::priv(Plater *q, MainFrame *main_frame)
         q->Bind(EVT_GLTOOLBAR_PRINT_PLATE, &priv::on_action_print_plate, this);
         q->Bind(EVT_PRINT_FROM_SDCARD_VIEW, &priv::on_action_print_plate_from_sdcard, this);
         q->Bind(EVT_GLTOOLBAR_SELECT_SLICED_PLATE, &priv::on_action_select_sliced_plate, this);
-        q->Bind(EVT_GLTOOLBAR_PRINT_ALL, &priv::on_action_print_all, this);
+        // q->Bind(EVT_GLTOOLBAR_PRINT_ALL, &priv::on_action_print_all, this);
         q->Bind(EVT_GLTOOLBAR_EXPORT_GCODE, &priv::on_action_export_gcode, this);
         q->Bind(EVT_GLTOOLBAR_SEND_GCODE, &priv::on_action_send_gcode, this);
         q->Bind(EVT_GLTOOLBAR_EXPORT_SLICED_FILE, &priv::on_action_export_sliced_file, this);
@@ -6274,6 +6278,19 @@ void Plater::priv::on_action_print_plate_from_sdcard(SimpleEvent&)
     m_select_machine_dlg->set_print_type(PrintFromType::FROM_SDCARD_VIEW);
     m_select_machine_dlg->prepare(0);
     m_select_machine_dlg->ShowModal();
+    // if (!m_scanner_dlg) 
+    // {
+    //     m_scanner_dlg = new ScannerDialog(q);
+    // }
+    // m_scanner_dlg->ShowModal();
+
+    // if(m_scanner_dlg->get_confirm())
+    // {
+    //     //BBS
+    //     if (!m_select_machine_dlg) m_select_machine_dlg = new SelectMachineDialog(q);
+    //     m_select_machine_dlg->prepare(partplate_list.get_curr_plate_index());
+    //     m_select_machine_dlg->ShowModal();
+    // }
 }
 
 int Plater::priv::update_print_required_data(Slic3r::DynamicPrintConfig config, Slic3r::Model model, Slic3r::PlateDataPtrs plate_data_list, std::string file_name, std::string file_path)
@@ -6300,6 +6317,9 @@ void Plater::priv::on_action_select_sliced_plate(wxCommandEvent &evt)
     if (q != nullptr) {
         BOOST_LOG_TRIVIAL(debug) << __FUNCTION__ << ":received select sliced plate event\n" ;
     }
+
+    //Todo: insert card scanner here
+    
     q->select_sliced_plate(evt.GetInt());
 }
 

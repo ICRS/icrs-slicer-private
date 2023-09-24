@@ -175,20 +175,7 @@ void PartPlate::init()
 
 BedType PartPlate::get_bed_type(bool load_from_project) const
 {
-	std::string bed_type_key = "curr_bed_type";
-
-	if (m_config.has(bed_type_key)) {
-		BedType bed_type = m_config.opt_enum<BedType>(bed_type_key);
-		return bed_type;
-	}
-
-	if (!load_from_project || !m_plater || !wxGetApp().preset_bundle)
-		return btDefault;
-
-	DynamicConfig& proj_cfg = wxGetApp().preset_bundle->project_config;
-	if (proj_cfg.has(bed_type_key))
-		return proj_cfg.opt_enum<BedType>(bed_type_key);
-	return btDefault;
+	return BedType::btPTE;
 }
 
 void PartPlate::set_bed_type(BedType bed_type)
@@ -205,7 +192,7 @@ void PartPlate::set_bed_type(BedType bed_type)
         if (proj_cfg.has(bed_type_key))
             old_real_bed_type = proj_cfg.opt_enum<BedType>(bed_type_key);
     }
-    BedType new_real_bed_type = bed_type;
+    BedType new_real_bed_type = BedType::btPTE;
     if (bed_type == BedType::btDefault) {
         DynamicConfig& proj_cfg = wxGetApp().preset_bundle->project_config;
         if (proj_cfg.has(bed_type_key))
@@ -218,7 +205,7 @@ void PartPlate::set_bed_type(BedType bed_type)
     if (bed_type == BedType::btDefault)
         m_config.erase(bed_type_key);
     else
-        m_config.set_key_value("curr_bed_type", new ConfigOptionEnum<BedType>(bed_type));
+        m_config.set_key_value("curr_bed_type", new ConfigOptionEnum<BedType>(BedType::btPTE));
 }
 
 void PartPlate::reset_bed_type()
