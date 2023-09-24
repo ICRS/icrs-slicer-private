@@ -5172,13 +5172,9 @@ void PartPlateList::init_bed_type_info()
 		bed_texture_info[i].reset();
 		bed_texture_info[i].parts.clear();
 	}
+	//BedTextureInfo::TexturePart pte_part1( 6,  40,  12, 200, "bbl_bed_pte_left.svg");
+	//BedTextureInfo::TexturePart pte_part2(72, -11, 150,  12, "bbl_bed_pte_bottom.svg");
 
-	bed_texture_info[btPC].parts.push_back(pc_part1);
-	bed_texture_info[btPC].parts.push_back(pc_part2);
-	bed_texture_info[btEP].parts.push_back(ep_part1);
-	bed_texture_info[btEP].parts.push_back(ep_part2);
-	bed_texture_info[btPEI].parts.push_back(pei_part1);
-	bed_texture_info[btPEI].parts.push_back(pei_part2);
 	bed_texture_info[btPTE].parts.push_back(pte_part1);
 	bed_texture_info[btPTE].parts.push_back(pte_part2);
 

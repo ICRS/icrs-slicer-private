@@ -1816,17 +1816,7 @@ enum BambuBedType {
 
 static BambuBedType to_bambu_bed_type(BedType type)
 {
-    BambuBedType bambu_bed_type = bbtUnknown;
-    if (type == btPC)
-        bambu_bed_type = bbtCoolPlate;
-    else if (type == btEP)
-        bambu_bed_type = bbtEngineeringPlate;
-    else if (type == btPEI)
-        bambu_bed_type = bbtHighTemperaturePlate;
-    else if (type == btPTE)
-        bambu_bed_type = bbtTexturedPEIPlate;
-
-    return bambu_bed_type;
+    return bbtTexturedPEIPlate;
 }
 
 void GCode::_do_export(Print& print, GCodeOutputStream &file, ThumbnailsGeneratorCallback thumbnail_cb)
