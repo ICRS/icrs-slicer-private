@@ -5172,15 +5172,15 @@ void PartPlateList::init_bed_type_info()
 	float base_height = 256;
 	float x_rate      = bed_width / base_width;
 	float y_rate      = bed_height / base_height;
-	for (int i = 0; i < btCount; i++) {
-		for (int j = 0; j < bed_texture_info[i].parts.size(); j++) {
-			bed_texture_info[i].parts[j].x *= x_rate;
-			bed_texture_info[i].parts[j].y *= y_rate;
-			bed_texture_info[i].parts[j].w *= x_rate;
-			bed_texture_info[i].parts[j].h *= y_rate;
-			bed_texture_info[i].parts[j].update_buffer();
-		}
+
+	for (int j = 0; j < bed_texture_info[btPTE].parts.size(); j++) {
+		bed_texture_info[btPTE].parts[j].x *= x_rate;
+		bed_texture_info[btPTE].parts[j].y *= y_rate;
+		bed_texture_info[btPTE].parts[j].w *= x_rate;
+		bed_texture_info[btPTE].parts[j].h *= y_rate;
+		bed_texture_info[btPTE].parts[j].update_buffer();
 	}
+	// }
 }
 
 void PartPlateList::load_bedtype_textures()
