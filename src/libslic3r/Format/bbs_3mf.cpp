@@ -3847,7 +3847,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
             }
             else if (key == BED_TYPE_ATTR)
             {
-                BedType bed_type = BedType::btPC;
+                BedType bed_type = BedType::btPTE;
                 ConfigOptionEnum<BedType>::from_string(value, bed_type);
                 m_curr_plater->config.set_key_value("curr_bed_type", new ConfigOptionEnum<BedType>(bed_type));
             }
