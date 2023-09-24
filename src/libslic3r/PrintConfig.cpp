@@ -639,7 +639,7 @@ void PrintConfigDef::init_fff_params()
     def->enum_labels.emplace_back(L("Engineering Plate"));
     def->enum_labels.emplace_back(L("Smooth PEI Plate / High Temp Plate"));
     def->enum_labels.emplace_back(L("Textured PEI Plate"));
-    def->set_default_value(new ConfigOptionEnum<BedType>(btPC));
+    def->set_default_value(new ConfigOptionEnum<BedType>(btPTE));
 
     // BBS
     def             = this->add("first_layer_print_sequence", coInts);
