@@ -213,7 +213,8 @@ wxString PlateSettingsDialog::to_bed_type_name(BedType bed_type) {
         return _(bed_type_def->enum_labels[size_t(bed_type) - 1]);
         }
     }
-    return _L("Same as Global Bed Type");
+    //return _L("Same as Global Bed Type");
+    return _L("Textured PEI Plate");
 }
 
 wxString PlateSettingsDialog::to_print_sequence_name(PrintSequence print_seq) {
