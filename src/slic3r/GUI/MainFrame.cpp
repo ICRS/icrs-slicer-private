@@ -1481,11 +1481,6 @@ wxBoxSizer* MainFrame::create_side_tools()
 
     update_side_button_style();
 
-    m_publish_btn->Hide();
-    sizer->Add(m_publish_btn, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, FromDIP(1));
-
-    sizer->Add(FromDIP(15), 0, 0, 0, 0);
-
     sizer->Add(m_slice_btn, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, FromDIP(1));
     sizer->Add(FromDIP(15), 0, 0, 0, 0);
     sizer->Add(m_print_btn, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, FromDIP(1));
@@ -1518,20 +1513,6 @@ wxBoxSizer* MainFrame::create_side_tools()
                 wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_SLICE_PLATE));
 
             this->m_tabpanel->SetSelection(tpPreview);
-        });
-    m_print_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
-        {
-            //this->m_plater->select_view_3D("Preview");
-            if (m_print_select == ePrintAll || m_print_select == ePrintPlate)
-            {
-                m_plater->apply_background_progress();
-                // check valid of print
-                m_print_enable = get_enable_print_status();
-                m_print_btn->Enable(m_print_enable);
-                if (m_print_enable) {
-                    wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_PLATE));
-                }
-            }
         });
 
     m_print_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
@@ -1747,6 +1728,8 @@ void MainFrame::update_side_button_style()
     m_slice_btn->SetMinSize(wxSize(-1, FromDIP(24)));
 
     m_print_btn->SetTextLayout(SideButton::EHorizontalOrientation::HO_Center, FromDIP(15));
+    m_print_btn->SetCornerRadius(FromDIP(12));
+    
     m_print_btn->SetExtraSize(wxSize(FromDIP(38), FromDIP(10)));
     m_print_btn->SetMinSize(wxSize(-1, FromDIP(24)));
 
