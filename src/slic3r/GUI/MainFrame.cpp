@@ -14,6 +14,8 @@
 #include <wx/debug.h>
 #include <wx/utils.h> 
 
+#include <ctime>
+
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/log/trivial.hpp>
 
@@ -60,6 +62,8 @@
 #include "NetworkTestDialog.hpp"
 #include "ConfigWizard.hpp"
 #include "Widgets/WebView.hpp"
+
+#include "PrintTimeAlert.hpp"
 
 #ifdef _WIN32
 #include <dbt.h>
@@ -1462,10 +1466,12 @@ wxBoxSizer* MainFrame::create_side_tools()
     m_print_btn = new SideButton(this, _L("Print plate"), "");
 
     update_side_button_style();
+
     m_publish_btn->Hide();
     sizer->Add(m_publish_btn, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, FromDIP(1));
 
     sizer->Add(FromDIP(15), 0, 0, 0, 0);
+
     sizer->Add(m_slice_btn, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, FromDIP(1));
     sizer->Add(FromDIP(15), 0, 0, 0, 0);
     sizer->Add(m_print_btn, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, FromDIP(1));
@@ -1499,7 +1505,6 @@ wxBoxSizer* MainFrame::create_side_tools()
 
             this->m_tabpanel->SetSelection(tpPreview);
         });
-
     m_print_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
         {
             //this->m_plater->select_view_3D("Preview");
@@ -1510,26 +1515,56 @@ wxBoxSizer* MainFrame::create_side_tools()
                 m_print_enable = get_enable_print_status();
                 m_print_btn->Enable(m_print_enable);
                 if (m_print_enable) {
-                    if (m_print_select == ePrintAll)
-                        wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_ALL));
+                    wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_PLATE));
+                }
+            }
+        });
+
+    m_print_btn->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event)
+        {
+            //this->m_plater->select_view_3D("Preview");
+            if (m_print_select == ePrintAll || m_print_select == ePrintPlate)
+            {
+                // TODO: signin here;
+                m_plater->apply_background_progress();
+                // check valid of print
+                auto m_time_estimate_mode = PrintEstimatedStatistics::ETimeMode::Normal;
+
+                double total_time_all_plates = 0.0;
+                PartPlateList& plate_list = wxGetApp().plater()->get_partplate_list();
+                for (auto plate : plate_list.get_nonempty_plate_list())
+                {
+                    auto plate_print_statistics = plate->get_slice_result()->print_statistics;
+                    auto plate_extruders = plate->get_extruders(true);
+                    const PrintEstimatedStatistics::Mode& plate_time_mode = plate_print_statistics.modes[static_cast<size_t>(m_time_estimate_mode)];
+                    total_time_all_plates += plate_time_mode.time;
+                }
+                
+                std::time_t curr_time = std::time(NULL);
+	            std::tm *tm_local = std::localtime(&curr_time);
+                int hour = tm_local->tm_hour;
+                
+                bool isLessThan3hours = (total_time_all_plates < 3 * 60 * 60);
+                bool after10 = (hour > 22);
+                bool isLessThan9Hours = (total_time_all_plates < 9 * 60 * 60);
+
+                bool afterHoursPrint = after10 && isLessThan9Hours;
+                
+                m_print_enable = get_enable_print_status() && (isLessThan3hours || afterHoursPrint);
+                m_print_btn->Enable(m_print_enable);
+                
+                if(!m_print_enable) {
+                    auto m_scanner_dlg = new PrintTimeAlert();
+                    m_scanner_dlg->ShowModal();
+                }
+                
+                if (m_print_enable) {
+                    // if (m_print_select == ePrintAll)
+                        // wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_ALL));
                     if (m_print_select == ePrintPlate)
                         wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_PLATE));
                 }
             }
-            else if (m_print_select == eExportGcode)
-                wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_EXPORT_GCODE));
-            else if (m_print_select == eSendGcode)
-                wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_SEND_GCODE));
-            else if (m_print_select == eUploadGcode)
-                wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_UPLOAD_GCODE));
-            else if (m_print_select == eExportSlicedFile)
-                wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_EXPORT_SLICED_FILE));
-            else if (m_print_select == eExportAllSlicedFile)
-                wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_EXPORT_ALL_SLICED_FILE));
-            else if (m_print_select == eSendToPrinter)
-                wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_SEND_TO_PRINTER));
-            else if (m_print_select == eSendToPrinterAll)
-                wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_SEND_TO_PRINTER_ALL));
         });
 
 
@@ -1698,13 +1733,12 @@ void MainFrame::update_side_button_style()
     // m_publish_btn->SetBackgroundColour(wxColour(59,68,70));
     // m_publish_btn->SetTextColor(StateColor::darkModeColorFor("#FFFFFE"));
 
-    m_slice_btn->SetTextLayout(SideButton::EHorizontalOrientation::HO_Left, FromDIP(15));
-    m_slice_btn->SetCornerRadius(FromDIP(12));
+    m_slice_btn->SetTextLayout(SideButton::EHorizontalOrientation::HO_Center, FromDIP(15));
+
     m_slice_btn->SetExtraSize(wxSize(FromDIP(38), FromDIP(10)));
     m_slice_btn->SetMinSize(wxSize(-1, FromDIP(24)));
 
-    m_print_btn->SetTextLayout(SideButton::EHorizontalOrientation::HO_Left, FromDIP(15));
-    m_print_btn->SetCornerRadius(FromDIP(12));
+    m_print_btn->SetTextLayout(SideButton::EHorizontalOrientation::HO_Center, FromDIP(15));
     m_print_btn->SetExtraSize(wxSize(FromDIP(38), FromDIP(10)));
     m_print_btn->SetMinSize(wxSize(-1, FromDIP(24)));
 

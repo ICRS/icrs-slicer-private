@@ -2757,7 +2757,6 @@ void TabFilament::build()
             DynamicPrintConfig& filament_config = wxGetApp().preset_bundle->filaments.get_edited_preset().config;
 
             update_dirty();
-            
             if (opt_key == "textured_plate_temp" || opt_key == "textured_plate_temp_initial_layer") {
                 m_config_manipulation.check_bed_temperature_difference(BedType::btPTE, &filament_config);
             }
@@ -2990,8 +2989,6 @@ void TabFilament::toggle_options()
         bool pa = m_config->opt_bool("enable_pressure_advance", 0);
         toggle_option("pressure_advance", pa);
 
-        toggle_line("cool_plate_temp_initial_layer", is_BBL_printer);
-        toggle_line("eng_plate_temp_initial_layer", is_BBL_printer);
         toggle_line("textured_plate_temp_initial_layer", is_BBL_printer);
         // bool support_chamber_temp_control = this->m_preset_bundle->printers.get_selected_preset().config.opt_bool("support_chamber_temp_control");
         // toggle_option("chamber_temperature", !is_BBL_printer || support_chamber_temp_control);
