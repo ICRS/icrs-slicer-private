@@ -381,9 +381,7 @@ public:
     mutable int m_slice_select{ eSliceAll };
     Button* m_publish_btn{ nullptr };
     SideButton* m_slice_btn{ nullptr };
-    SideButton* m_slice_option_btn{ nullptr };
     SideButton* m_print_btn{ nullptr };
-    SideButton* m_print_option_btn{ nullptr };
     mutable bool          m_slice_enable{ true };
     mutable bool          m_print_enable{ true };
     bool get_enable_slice_status();
