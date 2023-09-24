@@ -2748,6 +2748,7 @@ void TabFilament::build()
             DynamicPrintConfig& filament_config = wxGetApp().preset_bundle->filaments.get_edited_preset().config;
 
             update_dirty();
+
             if (opt_key == "nozzle_temperature") {
                 m_config_manipulation.check_nozzle_temperature_range(&filament_config);
             }
