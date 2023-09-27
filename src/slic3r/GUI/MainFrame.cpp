@@ -63,6 +63,9 @@
 #include "ConfigWizard.hpp"
 #include "Widgets/WebView.hpp"
 
+#include "../Utils/Http.hpp"
+
+// ICRS Configs
 #include "PrintTimeAlert.hpp"
 
 #ifdef _WIN32
@@ -1557,13 +1560,7 @@ wxBoxSizer* MainFrame::create_side_tools()
                     auto m_scanner_dlg = new PrintTimeAlert();
                     m_scanner_dlg->ShowModal();
                 }
-                
-                if (m_print_enable) {
-                    // if (m_print_select == ePrintAll)
-                        // wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_ALL));
-                    if (m_print_select == ePrintPlate)
-                        wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_PLATE));
-                }
+                else if (m_print_select == ePrintPlate) wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_PLATE));
             }
         });
 
