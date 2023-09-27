@@ -23,6 +23,9 @@
 #include "BitmapCache.hpp"
 #include "BindDialog.hpp"
 
+#include "../Utils/Http.hpp"
+#include "ICRSConfig.hpp"
+
 namespace Slic3r { namespace GUI {
 
 wxDEFINE_EVENT(EVT_UPDATE_WINDOWS_POSITION, wxCommandEvent);
@@ -2262,6 +2265,33 @@ void SelectMachineDialog::show_errors(wxString &info)
 
 void SelectMachineDialog::on_ok_btn(wxCommandEvent &event)
 {
+    bool send_print = false;
+
+    Slic3r::Http http = Slic3r::Http::get(ICRS_ENABLE_PRINT_ENDPOINT);
+    http.timeout_connect(1)
+        .timeout_max(1)
+        .on_complete([&send_print](std::string body, unsigned status) {
+            try {
+                if (body == "True") {
+                    BOOST_LOG_TRIVIAL(info) << "Sending Print";
+                    send_print = true;
+                }
+                else {
+                    BOOST_LOG_TRIVIAL(info) << "Failed to get verification";
+                }
+            }
+            catch (...) {
+                BOOST_LOG_TRIVIAL(error) << "Error somewhere!";
+                
+            }
+        }).on_error(
+            [](std::string body, std::string error, unsigned int status) {
+                BOOST_LOG_TRIVIAL(error) << "Error on Request or Timeout";
+        }).perform_sync();
+
+    if(!send_print) return;
+    // TODO: Add some dialog here 
+
     bool has_slice_warnings = false;
 
     DeviceManager* dev = Slic3r::GUI::wxGetApp().getDeviceManager();
