@@ -27,3 +27,4 @@ src/OrcaSlicer-doc/
 .idea/
 /.cache/
 *.mo
+src/slic3r/GUI/ICRSConfig.hpp
