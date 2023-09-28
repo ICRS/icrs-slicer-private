@@ -25,6 +25,7 @@
 
 #include "../Utils/Http.hpp"
 #include "ICRSConfig.hpp"
+#include "ScannerAlertDialog.hpp"
 
 namespace Slic3r { namespace GUI {
 
@@ -2289,8 +2290,13 @@ void SelectMachineDialog::on_ok_btn(wxCommandEvent &event)
                 BOOST_LOG_TRIVIAL(error) << "Error on Request or Timeout";
         }).perform_sync();
 
-    if(!send_print) return;
-    // TODO: Add some dialog here 
+    if(!send_print) 
+    {
+        auto m_scanner_dlg = new ScannerAlertDialog();
+        m_scanner_dlg->ShowModal();
+
+        return;
+    };
 
     bool has_slice_warnings = false;
 
