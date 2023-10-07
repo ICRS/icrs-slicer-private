@@ -13,8 +13,8 @@ class ScannerDialog : public DPIDialog
     {
         // Bind(wxEVT_CLOSE_WINDOW, &ScannerDialog::on_cancel, this);
 
-        StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(27, 136, 68), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0, 150, 136), StateColor::Normal));
-        StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(0, 40, 189), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0, 150, 136), StateColor::Normal));
+        StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(27, 136, 68), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
+        StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(0, 40, 189), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
         // std::string icon_path = (boost::format("%1%/images/BambuStudioTitle.ico") % resources_dir()).str();
 
         // SetIcon(wxIcon(encode_path(icon_path.c_str()), wxBITMAP_TYPE_ICO));
@@ -22,7 +22,7 @@ class ScannerDialog : public DPIDialog
     
         m_button_confirm = new Button(this, _L("Confirm"));    
         m_button_confirm->SetBackgroundColor(btn_bg_blue);
-        m_button_confirm->SetBorderColor(wxColour(0, 150, 136));
+        m_button_confirm->SetBorderColor(wxColour(0, 10, 156));
         m_button_confirm->SetTextColor(wxColour(255, 255, 255));
         m_button_confirm->SetSize(wxSize(FromDIP(72), FromDIP(24)));
         m_button_confirm->SetMinSize(wxSize(FromDIP(72), FromDIP(24)));
