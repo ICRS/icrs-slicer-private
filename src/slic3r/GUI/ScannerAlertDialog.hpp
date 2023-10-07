@@ -49,11 +49,11 @@ class ScannerAlertDialog : public DPIDialog
         sizer_top->Add(m_body, 0, wxALL, 0);
         sizer_top->Add(0, FromDIP(10));
 
-        StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(0, 40, 220), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0, 150, 136), StateColor::Normal));
+        StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(0, 40, 220), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
     
         m_button_confirm = new Button(this, _L("I undestand"));    
         m_button_confirm->SetBackgroundColor(btn_bg_blue);
-        m_button_confirm->SetBorderColor(wxColour(0, 150, 136));
+        m_button_confirm->SetBorderColor(wxColour(0, 10, 156));
         m_button_confirm->SetTextColor(wxColour(255, 255, 255));
         m_button_confirm->SetSize(wxSize(FromDIP(72), FromDIP(24)));
         m_button_confirm->SetMinSize(wxSize(FromDIP(72), FromDIP(24)));
