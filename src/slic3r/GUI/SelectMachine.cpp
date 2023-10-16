@@ -1187,12 +1187,12 @@ SelectMachineDialog::SelectMachineDialog(Plater *plater)
     m_sizer_select->Add(select_bed, 0, wxLEFT | wxRIGHT, WRAP_GAP);
     m_sizer_select->Add(select_flow, 0, wxLEFT | wxRIGHT, WRAP_GAP);
     m_sizer_select->Add(select_timelapse, 0, wxLEFT | wxRIGHT, WRAP_GAP);
-    m_sizer_select->Add(select_use_ams, 0, wxLEFT | wxRIGHT, WRAP_GAP);
+    // m_sizer_select->Add(select_use_ams, 0, wxLEFT | wxRIGHT, WRAP_GAP);
 
     select_bed->Show(false);
     select_flow->Show(false);
     select_timelapse->Show(false);
-    select_use_ams->Show(false);
+    // select_use_ams->Show(false);
 
     m_sizer_select->Layout();
 
@@ -3112,15 +3112,15 @@ void SelectMachineDialog::update_flow_cali_check(MachineObject* obj)
 
 void SelectMachineDialog::update_ams_check(MachineObject* obj)
 {
-    if (obj && obj->is_function_supported(FUNC_USE_AMS)
-        && obj->ams_support_use_ams
-        && obj->has_ams()) {
-        select_use_ams->Show();
-        if (obj->printer_type == "N1") {img_ams_tip->Hide();}
-        else {img_ams_tip->Show();}
-    } else {
-        select_use_ams->Hide();
-    }
+    // if (obj && obj->is_function_supported(FUNC_USE_AMS)
+    //     && obj->ams_support_use_ams
+    //     && obj->has_ams()) {
+    //     // select_use_ams->Show();
+    //     if (obj->printer_type == "N1") {img_ams_tip->Hide();}
+    //     else {img_ams_tip->Show();}
+    // } else {
+    select_use_ams->Hide();
+    // }
 }
 
 void SelectMachineDialog::update_show_status()
