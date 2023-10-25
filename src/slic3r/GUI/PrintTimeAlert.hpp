@@ -28,6 +28,7 @@ class PrintTimeAlert : public DPIDialog
     public:
     PrintTimeAlert() : DPIDialog(static_cast<wxWindow *>(wxGetApp().mainframe), wxID_ANY, _L("Scan Time Alert"), wxDefaultPosition, wxDefaultSize, wxCAPTION | wxCLOSE_BOX) 
     {
+        Bind(wxEVT_CLOSE_WINDOW, [this](wxCloseEvent& event){ this->EndModal(wxID_CANCEL); });
 
         wxBoxSizer *main_sizer;
         main_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -51,7 +52,7 @@ class PrintTimeAlert : public DPIDialog
 
         StateColor btn_bg_blue(std::pair<wxColour, int>(wxColour(0, 40, 220), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
     
-        m_button_confirm = new Button(this, _L("I undestand"));    
+        m_button_confirm = new Button(this, _L("I understand"));    
         m_button_confirm->SetBackgroundColor(btn_bg_blue);
         m_button_confirm->SetBorderColor(wxColour(0, 10, 156));
         m_button_confirm->SetTextColor(wxColour(255, 255, 255));
