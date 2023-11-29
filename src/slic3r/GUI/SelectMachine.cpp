@@ -2861,7 +2861,30 @@ void SelectMachineDialog::on_send_print()
     if (agent)
         agent->track_update_property("dev_ota_version", obj_->get_ota_version());
 
+    auto aprint_stats = m_plater->get_partplate_list().get_current_fff_print().print_statistics();
+    float   time;
+    PartPlate* plate = m_plater->get_partplate_list().get_curr_plate();
+    if (plate) {
+        if (plate->get_slice_result()) { time = plate->get_slice_result()->print_statistics.modes[0].time; }
+    }
+
+    char weight[64];
+    ::sprintf(weight, "%.2f", aprint_stats.total_weight);
+    std::stringstream ss;
+    ss << "{\"weight\": \"" << weight << "\", \"time\": \"" << time << "\", \"name\": \"" << obj_->dev_name << "\"}\n";
+    // std::string data = "{\"weight\": \"" + std::string(weight) + "\", \"time\": \"" + time + "\", \"name\": \"" + obj_->dev_name + "\"}";
+    std::string data = ss.str();
+    Slic3r::Http http = Slic3r::Http::post(ICRS_PRINT_SUBMITTED);
+    http.header("Content-Type", "application/json")
+        .timeout_max(1) // seconds
+        .set_post_body(data)
+        .on_complete([](std::string body, unsigned status){}).on_error(
+            [](std::string body, std::string error, unsigned int status) {
+                BOOST_LOG_TRIVIAL(error) << "Error on Request or Timeout";
+        }).perform_sync();
+
     replace_job(*m_worker, std::move(m_print_job));
+
     BOOST_LOG_TRIVIAL(info) << "print_job: start print job";
 }
 
