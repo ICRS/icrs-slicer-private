@@ -2404,7 +2404,6 @@ void SelectMachineDialog::on_ok_btn(wxCommandEvent &event)
         return;
     };
 
-
     bool has_slice_warnings = false;
     bool has_update_nozzle  = false;
 
