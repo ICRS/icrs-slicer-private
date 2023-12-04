@@ -2,6 +2,7 @@
 #include "I18N.hpp"
 
 #include "libslic3r/Utils.hpp"
+#include "libslic3r/Color.hpp"
 #include "GUI.hpp"
 #include "GUI_App.hpp"
 #include "MainFrame.hpp"
@@ -18,7 +19,7 @@ AboutDialogLogo::AboutDialogLogo(wxWindow* parent)
 {
     this->SetBackgroundColour(*wxWHITE);
     this->logo = ScalableBitmap(this, Slic3r::var("OrcaSlicer_192px.png"), wxBITMAP_TYPE_PNG);
-    this->SetMinSize(this->logo.GetBmpSize());
+    this->SetMinSize(this->logo.GetSize());
 
     this->Bind(wxEVT_PAINT, &AboutDialogLogo::onRepaint, this);
 }
@@ -29,9 +30,9 @@ void AboutDialogLogo::onRepaint(wxEvent &event)
     dc.SetBackgroundMode(wxTRANSPARENT);
 
     wxSize size = this->GetSize();
-    int logo_w = this->logo.GetBmpWidth();
-    int logo_h = this->logo.GetBmpHeight();
-    dc.DrawBitmap(this->logo.bmp(), (size.GetWidth() - logo_w)/2, (size.GetHeight() - logo_h)/2, true);
+    int logo_w = this->logo.GetWidth();
+    int logo_h = this->logo.GetHeight();
+    dc.DrawBitmap(this->logo.get_bitmap(), (size.GetWidth() - logo_w)/2, (size.GetHeight() - logo_h)/2, true);
 
     event.Skip();
 }
@@ -127,10 +128,10 @@ wxString CopyrightsDialog::get_html_text()
     wxColour bgr_clr = wxGetApp().get_window_default_clr();//wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
 
     const auto text_clr = wxGetApp().get_label_clr_default();// wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
-    const auto text_clr_str = wxString::Format(wxT("#%02X%02X%02X"), text_clr.Red(), text_clr.Green(), text_clr.Blue());
-    const auto bgr_clr_str = wxString::Format(wxT("#%02X%02X%02X"), bgr_clr.Red(), bgr_clr.Green(), bgr_clr.Blue());
+    const auto text_clr_str = encode_color(ColorRGB(text_clr.Red(), text_clr.Green(), text_clr.Blue()));
+    const auto bgr_clr_str = encode_color(ColorRGB(bgr_clr.Red(), bgr_clr.Green(), bgr_clr.Blue()));
 
-    const wxString copyright_str = _(L("Copyright")) + "&copy; ";
+    const wxString copyright_str = _L("Copyright") + "&copy; ";
 
     wxString text = wxString::Format(
         "<html>"
@@ -379,7 +380,7 @@ AboutDialog::AboutDialog()
 
 void AboutDialog::on_dpi_changed(const wxRect &suggested_rect)
 {
-    m_logo_bitmap.msw_rescale();
+    m_logo_bitmap.sys_color_changed();
     m_logo->SetBitmap(m_logo_bitmap.bmp());
 
     const wxFont& font = GetFont();
