@@ -201,7 +201,7 @@ wxBitmap* BitmapCache::insert(const std::string &bitmap_key, const wxBitmap *beg
         x += bmp->GetScaledWidth();
 #else
         x += bmp->GetWidth();
-#endif 
+#endif
     }
     memDC.SelectObject(wxNullBitmap);
     return bitmap;
@@ -232,8 +232,8 @@ wxBitmap* BitmapCache::insert_raw_rgba(const std::string &bitmap_key, unsigned w
 wxBitmap* BitmapCache::load_png(const std::string &bitmap_name, unsigned width, unsigned height,
     const bool grayscale/* = false*/, const float scale_in_center/* = 0*/) // BBS: support resize by fill border
 {
-    std::string bitmap_key = bitmap_name + ( height !=0 ? 
-                                           "-h" + std::to_string(height) : 
+    std::string bitmap_key = bitmap_name + ( height !=0 ?
+                                           "-h" + std::to_string(height) :
                                            "-w" + std::to_string(width))
                                          + (grayscale ? "-gs" : "");
 
@@ -305,11 +305,11 @@ error:
     return NULL;
 }
 
-wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_width, unsigned target_height, 
+wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_width, unsigned target_height,
     const bool grayscale/* = false*/, const bool dark_mode/* = false*/, const std::string& new_color /*= ""*/, const float scale_in_center/* = 0*/)
 {
-    std::string bitmap_key = bitmap_name + ( target_height !=0 ? 
-                                           "-h" + std::to_string(target_height) : 
+    std::string bitmap_key = bitmap_name + ( target_height !=0 ?
+                                           "-h" + std::to_string(target_height) :
                                            "-w" + std::to_string(target_width))
                                          + (m_scale != 1.0f ? "-s" + float_to_string_decimal_point(m_scale) : "")
                                          + (dark_mode ? "-dm" : "")
@@ -333,7 +333,7 @@ wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_
         replaces["\"#6B6B6B\""] = "\"#818182\"";
         replaces["\"#909090\""] = "\"#FFFFFF\"";
         replaces["\"#00FF00\""] = "\"#FF0000\"";
-        replaces["\"#0085ff\""] = "\"#00675b\"";
+        replaces["\"#0085ff\""] = "\"#0085ff\"";
     }
     //if (!new_color.empty())
     //    replaces["\"#ED6B21\""] = "\"" + new_color + "\"";
@@ -355,7 +355,7 @@ wxBitmap* BitmapCache::load_svg(const std::string &bitmap_name, unsigned target_
 
     target_height != 0 ? target_height *= m_scale : target_width *= m_scale;
 
-    float svg_scale = target_height != 0 ? 
+    float svg_scale = target_height != 0 ?
                   (float)target_height / image->height  : target_width != 0 ?
                   (float)target_width / image->width    : 1;
 

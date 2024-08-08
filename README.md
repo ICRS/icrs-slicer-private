@@ -1,8 +1,8 @@
 [![Build all](https://github.com/SoftFever/OrcaSlicer/actions/workflows/build_all.yml/badge.svg?branch=main)](https://github.com/SoftFever/OrcaSlicer/actions/workflows/build_all.yml)
-# Orca Slicer     
-Orca Slicer is an open source slicer for FDM printers.   
-You can download Orca Slicer here: [github releases page](https://github.com/SoftFever/OrcaSlicer/releases/).  
-![discord-mark-blue](https://github.com/SoftFever/OrcaSlicer/assets/103989404/b97d5ffc-072d-4d0a-bbda-e67ef373876f) Join community: [OrcaSlicer Official Discord Server](https://discord.gg/P4VE9UY9gJ)   
+# Orca Slicer
+Orca Slicer is an open source slicer for FDM printers.
+You can download Orca Slicer here: [github releases page](https://github.com/SoftFever/OrcaSlicer/releases/).
+![discord-mark-blue](https://github.com/SoftFever/OrcaSlicer/assets/103989404/b97d5ffc-072d-4d0a-bbda-e67ef373876f) Join community: [OrcaSlicer Official Discord Server](https://discord.gg/P4VE9UY9gJ)
 
 # Main features
 - Auto calibrations for all printers
@@ -11,17 +11,17 @@ You can download Orca Slicer here: [github releases page](https://github.com/Sof
 - Polyholes conversion support [SuperSlicer Wiki: Polyholes](https://github.com/supermerill/SuperSlicer/wiki/Polyholes)
 - Klipper support
 - More granular controls
-- More features can be found in [change notes](https://github.com/SoftFever/OrcaSlicer/releases/)  
+- More features can be found in [change notes](https://github.com/SoftFever/OrcaSlicer/releases/)
 
 ### Some background
-OrcaSlicer is fork of Bambu Studio  
-It was previously known as BambuStudio-SoftFever  
-Bambu Studio is forked from [PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) by Prusa Research, which is from [Slic3r](https://github.com/Slic3r/Slic3r) by Alessandro Ranellucci and the RepRap community. 
+OrcaSlicer is fork of Bambu Studio
+It was previously known as BambuStudio-SoftFever
+Bambu Studio is forked from [PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) by Prusa Research, which is from [Slic3r](https://github.com/Slic3r/Slic3r) by Alessandro Ranellucci and the RepRap community.
 Orca Slicer incorporates a lot of features from SuperSlicer by @supermerill
-Orca Slicer's logo is designed by community member Justin Levine(@freejstnalxndr)  
+Orca Slicer's logo is designed by community member Justin Levine(@freejstnalxndr)
 
 # How to install
-**Windows**: 
+**Windows**:
 1.  Download the installer for your preferred version from the [releases page](https://github.com/SoftFever/OrcaSlicer/releases).
     - *For convenience there is also a portable build available.*
     - *If you have troubles to run the build, you might need to install following runtimes:*
@@ -33,49 +33,49 @@ Orca Slicer's logo is designed by community member Justin Levine(@freejstnalxndr
           -  This file may already be available on your computer if you've installed visual studio.  Check the following location: `%VCINSTALLDIR%Redist\MSVC\v142`
 
 **Mac**:
-1. Download the DMG for your computer: `arm64` version for Apple Silicon and `x86_64` for Intel CPU.  
-2. Drag OrcaSlicer.app to Application folder. 
-3. *If you want to run a build from a PR, you also need following instructions below*  
+1. Download the DMG for your computer: `arm64` version for Apple Silicon and `x86_64` for Intel CPU.
+2. Drag OrcaSlicer.app to Application folder.
+3. *If you want to run a build from a PR, you also need following instructions below*
     <details quarantine>
     - Option 1 (You only need to do this once. After that the app can be opened normally.):
       - Step 1: Hold _cmd_ and right click the app, from the context menu choose **Open**.
-      - Step 2: A warning window will pop up, click _Open_  
-      
-    - Option 2:  
+      - Step 2: A warning window will pop up, click _Open_
+
+    - Option 2:
       Execute this command in terminal: `xattr -dr com.apple.quarantine /Applications/OrcaSlicer.app`
       ```console
           softfever@mac:~$ xattr -dr com.apple.quarantine /Applications/OrcaSlicer.app
       ```
-    - Option 3:  
-        - Step 1: open the app, a warning window will pop up  
-            ![image](./SoftFever_doc/mac_cant_open.png)  
-        - Step 2: in `System Settings` -> `Privacy & Security`, click `Open Anyway`:  
-            ![image](./SoftFever_doc/mac_security_setting.png)  
+    - Option 3:
+        - Step 1: open the app, a warning window will pop up
+            ![image](./SoftFever_doc/mac_cant_open.png)
+        - Step 2: in `System Settings` -> `Privacy & Security`, click `Open Anyway`:
+            ![image](./SoftFever_doc/mac_security_setting.png)
     </details>
-    
+
 **Linux(Ubuntu)**:
- 1. If you run into trouble to execute it, try this command in terminal:  
+ 1. If you run into trouble to execute it, try this command in terminal:
     `chmod +x /path_to_appimage/OrcaSlicer_ubu64.AppImage`
-    
+
 # How to compile
-- Windows 64-bit  
+- Windows 64-bit
   - Tools needed: Visual Studio 2019, Cmake, git, Strawberry Perl.
       - You will require cmake version 3.14 or later, which is available [on their website](https://cmake.org/download/).
       - Strawberry Perl is [available on their github repository](https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/).
   - Run `build_release.bat` in `x64 Native Tools Command Prompt for VS 2019`
 
-- Mac 64-bit  
+- Mac 64-bit
   - Tools needed: Xcode, Cmake, git, gettext, libtool, automake, autoconf, texinfo
       - You can install most of them by running `brew install cmake gettext libtool automake autoconf texinfo`
   - run `build_release_macos.sh`
 
-- Ubuntu 
+- Ubuntu
   - Dependencies **Will be auto installed with the shell script**: `libmspack-dev libgstreamerd-3-dev libsecret-1-dev libwebkit2gtk-4.0-dev libosmesa6-dev libssl-dev libcurl4-openssl-dev eglexternalplatform-dev libudev-dev libdbus-1-dev extra-cmake-modules libgtk2.0-dev libglew-dev libudev-dev libdbus-1-dev cmake git texinfo`
   - run 'sudo ./BuildLinux.sh -u'
   - run './BuildLinux.sh -dsir'
 
 
-# Note: 
+# Note:
 If you're running Klipper, it's recommended to add the following configuration to your `printer.cfg` file.
 ```
 # Enable object exclusion
@@ -87,18 +87,18 @@ resolution: 0.1
 ```
 
 # Supports
-**Orca Slicer** is an open-source project, and I'm deeply grateful to all my sponsors and backers.   
-Their generous support enables me to purchase filaments and other essential 3D printing materials for the project.   
+**Orca Slicer** is an open-source project, and I'm deeply grateful to all my sponsors and backers.
+Their generous support enables me to purchase filaments and other essential 3D printing materials for the project.
 Thank you! :)
 
-### Sponsors:  
+### Sponsors:
 <table>
 <tr>
 <td>
 <a href="https://peopoly.net/">
     <img src="SoftFever_doc\sponsor_logos\peopoly-standard-logo.png" alt="Peopoly" width="64" height="">
 </a>
-</td> 
+</td>
 </tr>
 <tr>
 <td> </td>
@@ -112,10 +112,10 @@ Thank you! :)
 </tr>
 </table>
 
-### Backers:  
+### Backers:
 Ko-fi supporters: [Backers list](https://github.com/SoftFever/OrcaSlicer/wiki/OrcaSlicer-backers-%E2%80%90-28-Oct-2023)
 
-Support me  
+Support me
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/G2G5IP3CP)
 
 # License
@@ -133,3 +133,26 @@ Orca Slicer includes a pressure advance calibration pattern test adapted from An
 
 The bambu networking plugin is based on non-free libraries from Bambulab. It is optional to the Orca Slicer and provides extended functionalities for Bambulab printer users.
 
+# ICRS
+
+## Colour changes
+
+Pressed - (0xd06500)
+(0, 137, 123)
+
+Hovered - (0xffad54)
+(38, 166, 154)
+
+Normal - (0xff8500)
+(0x0085ff)
+(0xFF6E00)
+(0, 10, 156)
+
+
+"#323A3D" -> "#2a3240"
+"#00675b" -> "#0085ff"
+"#009688" -> "#0085ff"
+
+Primary: #0085ff
+Tint: #54adff
+Shade: #0064d1
