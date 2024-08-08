@@ -99,8 +99,8 @@ void Slic3r::GUI::ImageGrid::SetGroupMode(int mode)
         return;
     }
     wxSize size = GetClientSize();
-    int index = (m_row_offset + 1 < m_row_count || m_row_count == 0) 
-        ? m_row_offset / 4 * m_col_count 
+    int index = (m_row_offset + 1 < m_row_count || m_row_count == 0)
+        ? m_row_offset / 4 * m_col_count
         : ((m_file_sys->GetCount() + m_col_count - 1) / m_col_count - (size.y + m_border_size.GetHeight() - 1) / m_cell_size.GetHeight()) * m_col_count;
     auto & file = m_file_sys->GetFile(index);
     m_file_sys->SetGroupMode((PrinterFileSystem::GroupMode) mode);
@@ -377,7 +377,7 @@ void ImageGrid::mouseWheelMoved(wxMouseEvent &event)
 void Slic3r::GUI::ImageGrid::changedEvent(wxCommandEvent& evt)
 {
     evt.Skip();
-    BOOST_LOG_TRIVIAL(debug) << "ImageGrid::changedEvent: " << evt.GetEventType() << " index: " << evt.GetInt() 
+    BOOST_LOG_TRIVIAL(debug) << "ImageGrid::changedEvent: " << evt.GetEventType() << " index: " << evt.GetInt()
             << " name: " << evt.GetString().ToUTF8().data() << " extra: " << evt.GetExtraLong();
     if (evt.GetEventType() == EVT_FILE_CHANGED) {
         if (evt.GetInt() == -1)
@@ -677,7 +677,7 @@ void Slic3r::GUI::ImageGrid::renderContent2(wxDC &dc, wxPoint const &pt, int ind
     dc.SetPen(pn);
     // Draw infos
     dc.SetFont(Label::Head_16);
-    dc.SetTextForeground(StateColor::darkModeColorFor("#323A3D"));
+    dc.SetTextForeground(StateColor::darkModeColorFor("#2a3240"));
     auto em = em_unit(this);
     wxRect rect{pt.x, pt.y + m_content_rect.GetHeight() - h, m_content_rect.GetWidth(), h / 2};
     rect.Deflate(em, 0);

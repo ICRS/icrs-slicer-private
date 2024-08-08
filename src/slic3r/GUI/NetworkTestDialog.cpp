@@ -56,7 +56,7 @@ NetworkTestDialog::NetworkTestDialog(wxWindow* parent, wxWindowID id, const wxSt
 
 wxBoxSizer* NetworkTestDialog::create_top_sizer(wxWindow* parent)
 {
-    StateColor btn_bg(std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed), std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered), std::pair<wxColour, int>(wxColour(255, 255, 255), StateColor::Enabled));
+    StateColor btn_bg(std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered), std::pair<wxColour, int>(wxColour(255, 255, 255), StateColor::Enabled));
 	auto sizer = new wxBoxSizer(wxVERTICAL);
 
 	auto line_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -138,7 +138,7 @@ wxBoxSizer* NetworkTestDialog::create_content_sizer(wxWindow* parent)
 	grid_sizer->SetFlexibleDirection(wxBOTH);
 	grid_sizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
 
-    StateColor btn_bg(std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed),std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered), std::pair<wxColour, int>(wxColour(255,255,255), StateColor::Enabled));
+    StateColor btn_bg(std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed),std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered), std::pair<wxColour, int>(wxColour(255,255,255), StateColor::Enabled));
 	btn_link = new Button(this, _L("Test BambuLab"));
     btn_link->SetBackgroundColor(btn_bg);
 	grid_sizer->Add(btn_link, 0, wxEXPAND | wxALL, 5);
@@ -268,7 +268,7 @@ wxBoxSizer* NetworkTestDialog::create_content_sizer(wxWindow* parent)
 	});
 
 	btn_network_plugin->Bind(wxEVT_BUTTON, [this](wxCommandEvent &evt) {
-		start_test_plugin_download_thread(); 
+		start_test_plugin_download_thread();
 	});
 
 	return sizer;
@@ -352,7 +352,7 @@ void NetworkTestDialog::start_all_job()
 {
 	start_test_bambulab_thread();
 	start_test_bing_thread();
-	
+
 	start_test_iot_thread();
 	start_test_oss_thread();
 	start_test_oss_upgrade_thread();
@@ -620,7 +620,7 @@ void NetworkTestDialog::start_test_oss_download()
 			try {
 				json j = json::parse(body);
 				std::string message = j["message"].get<std::string>();
-                
+
 				if (message == "success") {
 					json resource = j.at("resources");
 					if (resource.is_array()) {
@@ -737,7 +737,7 @@ void NetworkTestDialog::start_test_oss_download()
 
 void NetworkTestDialog::start_test_oss_upload()
 {
-	
+
 }
 
 void NetworkTestDialog:: start_test_plugin_download(){
@@ -809,7 +809,7 @@ void NetworkTestDialog:: start_test_plugin_download(){
             result = -1;
         })
         .perform_sync();
-     
+
 
     if (result < 0) {
         this->update_status(TEST_PLUGIN_JOB, "test plugin download failed");
@@ -936,8 +936,8 @@ void NetworkTestDialog::start_test_oss_upload_thread()
 
 void NetworkTestDialog:: start_test_plugin_download_thread(){
 
-	test_job[TEST_PLUGIN_JOB] = new boost::thread([this] { 
-		start_test_plugin_download(); 
+	test_job[TEST_PLUGIN_JOB] = new boost::thread([this] {
+		start_test_plugin_download();
 	});
 }
 

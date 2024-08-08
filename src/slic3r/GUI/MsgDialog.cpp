@@ -93,12 +93,12 @@ void MsgDialog::show_dsa_button(wxString const &title)
     auto  m_text_dsa = new wxStaticText(this, wxID_ANY, title.IsEmpty() ? _L("Don't show again") : title, wxDefaultPosition, wxDefaultSize, 0);
     m_dsa_sizer->Add(m_text_dsa, 0, wxALL | wxALIGN_CENTER, FromDIP(2));
     m_text_dsa->SetFont(::Label::Body_13);
-    m_text_dsa->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#323A3D")));
+    m_text_dsa->SetForegroundColour(StateColor::darkModeColorFor(wxColour("#2a3240")));
     btn_sizer->Layout();
     Fit();
 }
 
-bool MsgDialog::get_checkbox_state() 
+bool MsgDialog::get_checkbox_state()
 {
     if (m_checkbox_dsa) {
         return m_checkbox_dsa->GetValue();
@@ -106,7 +106,7 @@ bool MsgDialog::get_checkbox_state()
     return false;
 }
 
-void MsgDialog::on_dpi_changed(const wxRect &suggested_rect) 
+void MsgDialog::on_dpi_changed(const wxRect &suggested_rect)
  {
      if (m_buttons.size() > 0) {
          MsgButtonsHash::iterator i = m_buttons.begin();
@@ -129,7 +129,7 @@ void MsgDialog::on_dpi_changed(const wxRect &suggested_rect)
      }
  }
 
-void MsgDialog::SetButtonLabel(wxWindowID btn_id, const wxString& label, bool set_focus/* = false*/) 
+void MsgDialog::SetButtonLabel(wxWindowID btn_id, const wxString& label, bool set_focus/* = false*/)
 {
     if (Button* btn = get_button(btn_id)) {
         btn->SetLabel(label);
@@ -149,7 +149,7 @@ Button* MsgDialog::add_button(wxWindowID btn_id, bool set_focus /*= false*/, con
     else if (label.length() >= 5 && label.length() < 8) {
         type = ButtonSizeMiddle;
         btn->SetMinSize(MSG_DIALOG_MIDDLE_BUTTON_SIZE);
-    } 
+    }
     else if (label.length() >= 8 && label.length() < 12) {
         type = ButtonSizeMiddle;
         btn->SetMinSize(MSG_DIALOG_LONG_BUTTON_SIZE);
@@ -157,16 +157,16 @@ Button* MsgDialog::add_button(wxWindowID btn_id, bool set_focus /*= false*/, con
         type = ButtonSizeLong;
         btn->SetMinSize(MSG_DIALOG_LONGER_BUTTON_SIZE);
     }
-    
+
     btn->SetCornerRadius(FromDIP(12));
     StateColor btn_bg_green(
-        std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed),
-        std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal)
+        std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed),
+        std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal)
     );
 
     StateColor btn_bd_green(
-        std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal)
+        std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal)
     );
 
     StateColor btn_text_green(
@@ -280,7 +280,7 @@ static void add_msg_content(wxWindow* parent, wxBoxSizer* content_sizer, wxStrin
     wxSize page_size;
     int em = wxGetApp().em_unit();
     if (!wxGetApp().mainframe) {
-        // If mainframe is nullptr, it means that GUI_App::on_init_inner() isn't completed 
+        // If mainframe is nullptr, it means that GUI_App::on_init_inner() isn't completed
         // (We just show information dialog about configuration version now)
         // And as a result the em_unit value wasn't created yet
         // So, calculate it from the scale factor of Dialog
@@ -332,7 +332,7 @@ static void add_msg_content(wxWindow* parent, wxBoxSizer* content_sizer, wxStrin
 // ErrorDialog
 
 ErrorDialog::ErrorDialog(wxWindow *parent, const wxString &msg, bool monospaced_font)
-    : MsgDialog(parent, wxString::Format(_(L("%s error")), SLIC3R_APP_FULL_NAME), 
+    : MsgDialog(parent, wxString::Format(_(L("%s error")), SLIC3R_APP_FULL_NAME),
                         wxString::Format(_(L("%s has encountered an error")), SLIC3R_APP_FULL_NAME), wxOK)
 	, msg(msg)
 {
@@ -352,7 +352,7 @@ WarningDialog::WarningDialog(wxWindow *parent,
                              const wxString& message,
                              const wxString& caption/* = wxEmptyString*/,
                              long style/* = wxOK*/)
-    : MsgDialog(parent, caption.IsEmpty() ? wxString::Format(_L("%s warning"), SLIC3R_APP_FULL_NAME) : caption, 
+    : MsgDialog(parent, caption.IsEmpty() ? wxString::Format(_L("%s warning"), SLIC3R_APP_FULL_NAME) : caption,
                         wxString::Format(_L("%s has a warning")+":", SLIC3R_APP_FULL_NAME), style)
 {
     add_msg_content(this, content_sizer, message);
@@ -472,12 +472,12 @@ DownloadDialog::DownloadDialog(wxWindow *parent, const wxString &msg, const wxSt
 {
     add_button(wxID_YES, true, _L("Download"));
     add_button(wxID_CANCEL, true, _L("Skip"));
-    
+
     finalize();
 }
 
 
-void DownloadDialog::SetExtendedMessage(const wxString &extendedMessage) 
+void DownloadDialog::SetExtendedMessage(const wxString &extendedMessage)
 {
     add_msg_content(this, content_sizer, msg + "\n" + extendedMessage, false, false);
     Layout();

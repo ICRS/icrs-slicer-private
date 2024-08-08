@@ -13,7 +13,7 @@
 #include <wx/animate.h>
 #include <wx/dynarray.h>
 
-#define AMS_CONTROL_BRAND_COLOUR wxColour(0, 10, 156)
+#define AMS_CONTROL_BRAND_COLOUR wxColour(0xff8500)
 #define AMS_CONTROL_GRAY700 wxColour(107, 107, 107)
 #define AMS_CONTROL_GRAY800 wxColour(50, 58, 61)
 #define AMS_CONTROL_GRAY500 wxColour(172, 172, 172)
@@ -184,7 +184,7 @@ public:
     void    msw_rescale();
     void    set_disable_mode(bool disable) { m_disable_mode = disable; }
     Caninfo m_info;
-    
+
 
 protected:
     wxTimer *m_playing_timer= {nullptr};
@@ -387,7 +387,7 @@ public:
     ScalableBitmap ams_humidity_3;
     ScalableBitmap ams_humidity_4;
 
-   
+
     int      m_humidity = { 0 };
     bool     m_show_humidity = { false };
     bool     m_vams_loading{false};
@@ -568,7 +568,7 @@ protected:
     std::string  m_current_ams;
     std::string  m_current_show_ams;
     std::map<std::string, int> m_ams_selection;
-    
+
     AmsItemsHash m_ams_item_list;
 
     std::vector<AMSinfo>       m_ams_info;
@@ -595,7 +595,7 @@ protected:
     wxStaticText *m_text_calibration_percent = {nullptr};
     wxWindow *    m_none_ams_panel           = {nullptr};
     wxWindow *    m_panel_top                = {nullptr};
-    wxWindow *    m_amswin                   = {nullptr}; 
+    wxWindow *    m_amswin                   = {nullptr};
     wxBoxSizer*   m_vams_sizer               = {nullptr};
     wxBoxSizer*   m_sizer_vams_tips          = {nullptr};
 

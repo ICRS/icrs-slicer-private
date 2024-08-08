@@ -11,7 +11,7 @@
 namespace Slic3r {
 namespace GUI {
 
-  
+
 #define HISTORY_WINDOW_SIZE                wxSize(FromDIP(700), FromDIP(600))
 #define EDIT_HISTORY_DIALOG_INPUT_SIZE     wxSize(FromDIP(160), FromDIP(24))
 #define HISTORY_WINDOW_ITEMS_COUNT         5
@@ -198,13 +198,13 @@ void HistoryWindow::update(MachineObject* obj)
 void HistoryWindow::on_select_nozzle(wxCommandEvent& evt)
 {
     reqeust_history_result(curr_obj);
-    
+
 }
 
 void HistoryWindow::reqeust_history_result(MachineObject* obj)
 {
     if (curr_obj) {
-        // reset 
+        // reset
         curr_obj->reset_pa_cali_history_result();
         m_calib_results_history.clear();
         sync_history_data();
@@ -288,12 +288,12 @@ void HistoryWindow::sync_history_data() {
             });
 
         auto edit_button = new Button(m_history_data_panel, _L("Edit"));
-        StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed),
-            std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-            std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
+        StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed),
+            std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered),
+            std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal));
         edit_button->SetBackgroundColour(*wxWHITE);
         edit_button->SetBackgroundColor(btn_bg_green);
-        edit_button->SetBorderColor(wxColour(0, 10, 156));
+        edit_button->SetBorderColor(wxColour(0xff8500));
         edit_button->SetTextColor(wxColour("#FFFFFE"));
         edit_button->SetMinSize(wxSize(-1, FromDIP(24)));
         edit_button->SetCornerRadius(FromDIP(12));
@@ -393,12 +393,12 @@ EditCalibrationHistoryDialog::EditCalibrationHistoryDialog(wxWindow* parent, con
 
     auto btn_sizer = new wxBoxSizer(wxHORIZONTAL);
     Button* save_btn = new Button(top_panel, _L("Save"));
-    StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed),
-        std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
+    StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed),
+        std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal));
     save_btn->SetBackgroundColour(*wxWHITE);
     save_btn->SetBackgroundColor(btn_bg_green);
-    save_btn->SetBorderColor(wxColour(0, 10, 156));
+    save_btn->SetBorderColor(wxColour(0xff8500));
     save_btn->SetTextColor(wxColour("#FFFFFE"));
     save_btn->SetMinSize(wxSize(-1, FromDIP(24)));
     save_btn->SetCornerRadius(FromDIP(12));
@@ -442,7 +442,7 @@ void EditCalibrationHistoryDialog::on_save(wxCommandEvent& event) {
         return;
     }
     m_new_result.name = m_name_value->GetTextCtrl()->GetValue().ToUTF8().data();
-    
+
     float k = 0.0f;
     if (!CalibUtils::validate_input_k_value(m_k_value->GetTextCtrl()->GetValue(), &k)) {
         MessageDialog msg_dlg(nullptr, _L(k_tips), wxEmptyString, wxICON_WARNING | wxOK);

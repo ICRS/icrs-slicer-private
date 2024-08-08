@@ -148,7 +148,7 @@ public:
                        const wxSize &  size  = wxDefaultSize,
                        long            style = wxTAB_TRAVERSAL,
                        const wxString &name  = wxEmptyString);
-    
+
     ~MachineObjectPanel();
 
     void show_bind_dialog();
@@ -166,12 +166,12 @@ protected:
 };
 
 #define SELECT_MACHINE_POPUP_SIZE wxSize(FromDIP(216), FromDIP(364))
-#define SELECT_MACHINE_LIST_SIZE wxSize(FromDIP(212), FromDIP(360))  
+#define SELECT_MACHINE_LIST_SIZE wxSize(FromDIP(212), FromDIP(360))
 #define SELECT_MACHINE_ITEM_SIZE wxSize(FromDIP(182), FromDIP(35))
 #define SELECT_MACHINE_GREY900 wxColour(38, 46, 48)
 #define SELECT_MACHINE_GREY600 wxColour(144,144,144)
 #define SELECT_MACHINE_GREY400 wxColour(206, 206, 206)
-#define SELECT_MACHINE_BRAND wxColour(0, 10, 156)
+#define SELECT_MACHINE_BRAND wxColour(0xff8500)
 #define SELECT_MACHINE_REMIND wxColour(255,111,0)
 #define SELECT_MACHINE_LIGHT_GREEN wxColour(219, 253, 231)
 
@@ -221,7 +221,7 @@ private:
     std::string                       m_print_info = "";
     bool                              m_dismiss { false };
 
-    std::map<std::string, MachineObject*> m_bind_machine_list; 
+    std::map<std::string, MachineObject*> m_bind_machine_list;
     std::map<std::string, MachineObject*> m_free_machine_list;
 
 private:
@@ -306,7 +306,7 @@ private:
     wxColour                            m_colour_def_color{wxColour(255, 255, 255)};
     wxColour                            m_colour_bold_color{wxColour(38, 46, 48)};
     StateColor                          m_btn_bg_enable;
-    
+
     std::shared_ptr<int>                m_token = std::make_shared<int>(0);
     std::map<std::string, CheckBox *>   m_checkbox_list;
     //std::map<std::string, bool>         m_checkbox_state_list;
@@ -318,7 +318,7 @@ private:
     std::unique_ptr<Worker>             m_worker;
 
     Slic3r::DynamicPrintConfig          m_required_data_config;
-    Slic3r::Model                       m_required_data_model; 
+    Slic3r::Model                       m_required_data_model;
     Slic3r::PlateDataPtrs               m_required_data_plate_data_list;
     std::string                         m_required_data_file_name;
     std::string                         m_required_data_file_path;
@@ -520,7 +520,7 @@ public:
 private:
     ScalableBitmap m_background_bitmap;
     wxBitmap bitmap_with_background;
-    
+
 };
 
 }} // namespace Slic3r::GUI
