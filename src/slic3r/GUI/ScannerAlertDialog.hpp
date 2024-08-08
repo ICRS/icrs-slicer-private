@@ -41,7 +41,7 @@ class ScannerAlertDialog : public DPIDialog
         sizer_top->Add(0, FromDIP(40));
 
 
-        auto error_message = "Place Card on Scanner and make sure induction has been completed!\nContact Committee if you need help";
+        auto error_message = "Place card on scanner and make sure induction has been completed!\nContact committee if you need help";
         // SetIcon(wxIcon(encode_path(icon_path.c_str()), wxBITMAP_TYPE_ICO));
         m_body = new wxStaticText(this, wxID_ANY, _L(error_message), wxDefaultPosition, wxDefaultSize, 0);
         m_body->SetFont(Label::Body_15);
@@ -72,7 +72,6 @@ class ScannerAlertDialog : public DPIDialog
         main_sizer->Add(sizer_top, 0);
 
         SetSizer(main_sizer);
-        SetBackgroundColour(*wxWHITE);
     }
 
     ~ScannerAlertDialog() {}

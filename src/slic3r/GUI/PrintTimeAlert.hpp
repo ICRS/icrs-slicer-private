@@ -72,7 +72,6 @@ class PrintTimeAlert : public DPIDialog
         main_sizer->Add(sizer_top, 0);
 
         SetSizer(main_sizer);
-        SetBackgroundColour(*wxWHITE);
     }
 
     ~PrintTimeAlert() {}
