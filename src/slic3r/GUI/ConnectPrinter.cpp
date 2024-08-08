@@ -23,7 +23,7 @@ ConnectPrinterDialog::ConnectPrinterDialog(wxWindow *parent, wxWindowID id, cons
 
     m_staticText_connection_code = new wxStaticText(this, wxID_ANY, _L("Please input the printer access code:"), wxDefaultPosition, wxDefaultSize, 0);
     m_staticText_connection_code->SetFont(Label::Body_15);
-    m_staticText_connection_code->SetForegroundColour(wxColour(50, 58, 61));
+    m_staticText_connection_code->SetForegroundColour(wxColour(255, 255, 255));
     m_staticText_connection_code->Wrap(-1);
     sizer_top->Add(m_staticText_connection_code, 0, wxALL, 0);
 
@@ -76,7 +76,7 @@ ConnectPrinterDialog::ConnectPrinterDialog(wxWindow *parent, wxWindowID id, cons
 
     m_staticText_hints = new wxStaticText(this, wxID_ANY, _L("You can find it in \"Settings > Network > Connection code\"\non the printer, as shown in the figure:"), wxDefaultPosition, wxDefaultSize, 0);
     m_staticText_hints->SetFont(Label::Body_15);
-    m_staticText_hints->SetForegroundColour(wxColour(50, 58, 61));
+    m_staticText_hints->SetForegroundColour(wxColour(255, 255, 255));
     m_staticText_hints->Wrap(-1);
     sizer_top->Add(m_staticText_hints, 0, wxALL, 0);
 

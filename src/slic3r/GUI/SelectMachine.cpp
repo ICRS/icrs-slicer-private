@@ -2406,7 +2406,7 @@ void SelectMachineDialog::on_ok_btn(wxCommandEvent &event)
 
     if(!send_print)
     {
-        auto m_scanner_dlg = new ScannerAlertDialog();
+        auto m_scanner_dlg = new ScannerAlertDialog(); // TODO: new API
         m_scanner_dlg->ShowModal();
 
         return;

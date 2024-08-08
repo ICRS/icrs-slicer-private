@@ -314,7 +314,7 @@ void KBShortcutsDialog::fill_shortcuts()
 		    {L("Ctrl+Mouse wheel"), L("Move slider 5x faster")},
        #endif
 
-        
+
     };
     m_full_shortcuts.push_back({ { _L("Preview"), "" }, preview_shortcuts });
 }
@@ -346,13 +346,13 @@ wxPanel* KBShortcutsDialog::create_page(wxWindow* parent, const ShortcutsItem& s
     for (int i = 0; i < items_count; ++i) {
         const auto &[shortcut, description] = shortcuts.second[i];
         auto key                            = new wxStaticText(scrollable_panel, wxID_ANY, _(shortcut));
-        key->SetForegroundColour(wxColour(50, 58, 61));
+        key->SetForegroundColour(wxColour(255, 255, 255));
         key->SetFont(bold_font);
         grid_sizer->Add(key, 0, wxALIGN_CENTRE_VERTICAL);
 
         auto desc = new wxStaticText(scrollable_panel, wxID_ANY, _(description));
         desc->SetFont(font);
-        desc->SetForegroundColour(wxColour(50, 58, 61));
+        desc->SetForegroundColour(wxColour(255, 255, 255));
         desc->Wrap(FromDIP(600));
         grid_sizer->Add(desc, 0, wxALIGN_CENTRE_VERTICAL);
     }

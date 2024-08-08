@@ -45,7 +45,7 @@ class PrintTimeAlert : public DPIDialog
         // SetIcon(wxIcon(encode_path(icon_path.c_str()), wxBITMAP_TYPE_ICO));
         m_body = new wxStaticText(this, wxID_ANY, _L("Time Exceeded!"), wxDefaultPosition, wxDefaultSize, 0);
         m_body->SetFont(Label::Body_15);
-        m_body->SetForegroundColour(wxColour(50, 58, 61));
+        m_body->SetForegroundColour(wxColour(255, 255, 255));
         m_body->Wrap(-1);
         sizer_top->Add(m_body, 0, wxALL, 0);
         sizer_top->Add(0, FromDIP(10));
