@@ -11,7 +11,7 @@ namespace Slic3r { namespace GUI {
 
 wxDEFINE_EVENT(EVT_SELECTED_COLOR, wxCommandEvent);
 
-AMSMaterialsSetting::AMSMaterialsSetting(wxWindow *parent, wxWindowID id) 
+AMSMaterialsSetting::AMSMaterialsSetting(wxWindow *parent, wxWindowID id)
     : DPIDialog(parent, id, _L("AMS Materials Setting"), wxDefaultPosition, wxDefaultSize, wxBORDER_NONE)
     , m_color_picker_popup(ColorPickerPopup(this))
 {
@@ -34,10 +34,10 @@ void AMSMaterialsSetting::create()
     m_sizer_button->Add(0, 0, 1, wxEXPAND, 0);
 
     m_button_confirm = new Button(this, _L("Confirm"));
-    m_btn_bg_green   = StateColor(std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed), std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-                            std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
+    m_btn_bg_green   = StateColor(std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered),
+                            std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal));
     m_button_confirm->SetBackgroundColor(m_btn_bg_green);
-    m_button_confirm->SetBorderColor(wxColour(0, 10, 156));
+    m_button_confirm->SetBorderColor(wxColour(0xff8500));
     m_button_confirm->SetTextColor(wxColour("#FFFFFE"));
     m_button_confirm->SetMinSize(AMS_MATERIALS_SETTING_BUTTON_SIZE);
     m_button_confirm->SetCornerRadius(FromDIP(12));
@@ -67,7 +67,7 @@ void AMSMaterialsSetting::create()
     m_sizer_button->Add(m_button_close, 0, wxALIGN_CENTER, 0);
 
     m_sizer_main->Add(m_panel_normal, 0, wxALL, FromDIP(2));
-    
+
     m_sizer_main->Add(m_panel_kn, 0, wxALL, FromDIP(2));
 
     m_sizer_main->Add(0, 0, 0, wxTOP, FromDIP(24));
@@ -273,7 +273,7 @@ void AMSMaterialsSetting::create_panel_kn(wxWindow* parent)
     auto sizer = new wxBoxSizer(wxVERTICAL);
     // title
     m_ratio_text = new wxStaticText(parent, wxID_ANY, _L("Factors of Flow Dynamics Calibration"));
-    m_ratio_text->SetForegroundColour(wxColour(50, 58, 61));
+    m_ratio_text->SetForegroundColour(wxColour(255, 255, 255));
     m_ratio_text->SetFont(Label::Head_14);
 
     wxBoxSizer *m_sizer_cali_resutl = new wxBoxSizer(wxHORIZONTAL);
@@ -300,7 +300,7 @@ void AMSMaterialsSetting::create_panel_kn(wxWindow* parent)
     m_k_param->SetMinSize(wxSize(FromDIP(80), -1));
     m_k_param->SetMaxSize(wxSize(FromDIP(80), -1));
     m_k_param->SetFont(::Label::Body_13);
-    m_k_param->SetForegroundColour(wxColour(50, 58, 61));
+    m_k_param->SetForegroundColour(wxColour(255, 255, 255));
     m_k_param->Wrap(-1);
     kn_val_sizer->Add(m_k_param, 0, wxALL | wxALIGN_CENTER_VERTICAL, FromDIP(0));
 
@@ -314,7 +314,7 @@ void AMSMaterialsSetting::create_panel_kn(wxWindow* parent)
     wxBoxSizer* n_sizer = new wxBoxSizer(wxHORIZONTAL);
     m_n_param = new wxStaticText(parent, wxID_ANY, _L("Factor N"), wxDefaultPosition, wxDefaultSize, 0);
     m_n_param->SetFont(::Label::Body_13);
-    m_n_param->SetForegroundColour(wxColour(50, 58, 61));
+    m_n_param->SetForegroundColour(wxColour(255, 255, 255));
     m_n_param->Wrap(-1);
     kn_val_sizer->Add(m_n_param, 1, wxALL | wxALIGN_CENTER_VERTICAL, FromDIP(5));
     m_input_n_val = new TextInput(parent, wxEmptyString, wxEmptyString, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_CENTRE | wxTE_PROCESS_ENTER);
@@ -322,12 +322,6 @@ void AMSMaterialsSetting::create_panel_kn(wxWindow* parent)
     kn_val_sizer->Add(m_input_n_val, 0, wxALL | wxEXPAND | wxALIGN_CENTER_VERTICAL, FromDIP(5));
     m_n_param->Hide();
     m_input_n_val->Hide();
-
-    // hide n (P1P old logic)
-    //if (!this->obj || !this->obj->is_high_printer_type()) {
-    //    m_n_param->Hide();
-    //    m_input_n_val->Hide();
-    //}
 
     sizer->Add(0, 0, 0, wxTOP, FromDIP(10));
     sizer->Add(m_ratio_text, 0, wxLEFT | wxRIGHT | wxEXPAND, FromDIP(20));
@@ -339,7 +333,7 @@ void AMSMaterialsSetting::create_panel_kn(wxWindow* parent)
     parent->SetSizer(sizer);
 }
 
-void AMSMaterialsSetting::paintEvent(wxPaintEvent &evt) 
+void AMSMaterialsSetting::paintEvent(wxPaintEvent &evt)
 {
     auto      size = GetSize();
     wxPaintDC dc(this);
@@ -354,7 +348,7 @@ AMSMaterialsSetting::~AMSMaterialsSetting()
     m_comboBox_cali_result->Disconnect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AMSMaterialsSetting::on_select_cali_result), NULL, this);
 }
 
-void AMSMaterialsSetting::input_min_finish() 
+void AMSMaterialsSetting::input_min_finish()
 {
     if (m_input_nozzle_min->GetTextCtrl()->GetValue().empty()) return;
 
@@ -401,7 +395,7 @@ void AMSMaterialsSetting::enable_confirm_button(bool en)
 {
     m_button_confirm->Show(en);
     if (!m_is_third) {
-        m_tip_readonly->Hide(); 
+        m_tip_readonly->Hide();
     }
     else {
         //m_comboBox_filament->Show(en);
@@ -447,7 +441,7 @@ void AMSMaterialsSetting::on_select_reset(wxCommandEvent& event) {
         }
 
         // set k / n value
-        if (!obj->is_high_printer_type()) {
+        if (obj->get_printer_series() != PrinterSeries::SERIES_X1) {
             // set extrusion cali ratio
             int cali_tray_id = ams_id * 4 + tray_id;
 
@@ -490,7 +484,9 @@ void AMSMaterialsSetting::on_select_ok(wxCommandEvent &event)
     if (preset_bundle) {
         for (auto it = preset_bundle->filaments.begin(); it != preset_bundle->filaments.end(); it++) {
 
-            if (it->alias.compare(m_comboBox_filament->GetValue().ToStdString()) == 0) {
+            auto filament_item = map_filament_items[m_comboBox_filament->GetValue().ToStdString()];
+            std::string filament_id = filament_item.filament_id;
+            if (it->filament_id.compare(filament_id) == 0) {
 
 
                 //check is it in the filament blacklist
@@ -501,9 +497,12 @@ void AMSMaterialsSetting::on_select_ok(wxCommandEvent &event)
                     std::string filamnt_type;
                     it->get_filament_type(filamnt_type);
 
-                    if (it->vendor) {
-                        DeviceManager::check_filaments_in_blacklist(it->vendor->name, filamnt_type, in_blacklist, action, info);
+                    auto vendor = dynamic_cast<ConfigOptionStrings*> (it->config.option("filament_vendor"));
+                    if (vendor && (vendor->values.size() > 0)) {
+                        std::string vendor_name = vendor->values[0];
+                        DeviceManager::check_filaments_in_blacklist(vendor_name, filamnt_type, in_blacklist, action, info);
                     }
+
 
                     if (in_blacklist) {
                         if (action == "prohibition") {
@@ -545,12 +544,6 @@ void AMSMaterialsSetting::on_select_ok(wxCommandEvent &event)
         return;
     }
 
-    if (ams_filament_id.empty() || nozzle_temp_min.empty() || nozzle_temp_max.empty() || m_filament_type.empty()) {
-        BOOST_LOG_TRIVIAL(trace) << "Invalid Setting id";
-        MessageDialog msg_dlg(nullptr, _L("You need to select the material type and color first."), wxEmptyString, wxICON_WARNING | wxOK);
-        msg_dlg.ShowModal();
-        return;
-    }
 
     // set filament
     if (m_is_third) {
@@ -561,14 +554,14 @@ void AMSMaterialsSetting::on_select_ok(wxCommandEvent &event)
             obj->command_ams_filament_settings(ams_id, tray_id, ams_filament_id, ams_setting_id, std::string(col_buf), m_filament_type, nozzle_temp_min_int, nozzle_temp_max_int);
         }
     }
-    
+
     //reset param
     wxString k_text = m_input_k_val->GetTextCtrl()->GetValue();
     wxString n_text = m_input_n_val->GetTextCtrl()->GetValue();
 
-    if (!obj->is_high_printer_type() && !ExtrusionCalibration::check_k_validation(k_text)) {
-        wxString k_tips = _L("Please input a valid value (K in 0~0.5)");
-        wxString kn_tips = _L("Please input a valid value (K in 0~0.5, N in 0.6~2.0)");
+    if ((obj->get_printer_series() != PrinterSeries::SERIES_X1) && !ExtrusionCalibration::check_k_validation(k_text)) {
+        wxString k_tips = _L("Please input a valid value (K in 0~0.3)");
+        wxString kn_tips = _L("Please input a valid value (K in 0~0.3, N in 0.6~2.0)");
         MessageDialog msg_dlg(nullptr, k_tips, wxEmptyString, wxICON_WARNING | wxOK);
         msg_dlg.ShowModal();
         return;
@@ -591,7 +584,7 @@ void AMSMaterialsSetting::on_select_ok(wxCommandEvent &event)
             ;
         }
 
-        if (obj->is_high_printer_type()) {
+        if (obj->get_printer_series() == PrinterSeries::SERIES_X1) {
             PACalibIndexInfo select_index_info;
             select_index_info.tray_id = tray_id;
             select_index_info.nozzle_diameter = obj->nozzle_diameter;
@@ -630,7 +623,7 @@ void AMSMaterialsSetting::on_select_ok(wxCommandEvent &event)
             ;
         }
 
-        if (obj->is_high_printer_type()) {
+        if (obj->get_printer_series() == PrinterSeries::SERIES_X1) {
             PACalibIndexInfo select_index_info;
             select_index_info.tray_id = cali_tray_id;
             select_index_info.nozzle_diameter = obj->nozzle_diameter;
@@ -685,7 +678,7 @@ void AMSMaterialsSetting::on_picker_color(wxCommandEvent& event)
     set_color(wxColour(color_num>>24&0xFF, color_num>>16&0xFF, color_num>>8&0xFF, color_num&0xFF));
 }
 
-void AMSMaterialsSetting::on_clr_picker(wxMouseEvent &event) 
+void AMSMaterialsSetting::on_clr_picker(wxMouseEvent &event)
 {
     if(!m_is_third || obj->is_in_printing() || obj->can_resume())
         return;
@@ -729,7 +722,7 @@ void AMSMaterialsSetting::update_widgets()
         else
             m_panel_normal->Hide();
         m_panel_kn->Show();
-    } else if (obj && (obj->is_function_supported(PrinterFunction::FUNC_VIRTUAL_TYAY) || obj->is_high_printer_type())) {
+    } else if (obj && (obj->ams_support_virtual_tray || (obj->get_printer_series() == PrinterSeries::SERIES_X1))) {
         m_panel_normal->Show();
         m_panel_kn->Show();
     } else {
@@ -739,8 +732,8 @@ void AMSMaterialsSetting::update_widgets()
     Layout();
 }
 
-bool AMSMaterialsSetting::Show(bool show) 
-{ 
+bool AMSMaterialsSetting::Show(bool show)
+{
     if (show) {
         m_button_confirm->SetMinSize(AMS_MATERIALS_SETTING_BUTTON_SIZE);
         m_input_nozzle_max->GetTextCtrl()->SetSize(wxSize(-1, FromDIP(20)));
@@ -754,11 +747,12 @@ bool AMSMaterialsSetting::Show(bool show)
         Fit();
         wxGetApp().UpdateDarkUI(this);
     }
-    return DPIDialog::Show(show); 
+    return DPIDialog::Show(show);
 }
 
 void AMSMaterialsSetting::Popup(wxString filament, wxString sn, wxString temp_min, wxString temp_max, wxString k, wxString n)
 {
+    if (!obj) return;
     update_widgets();
     // set default value
     if (k.IsEmpty())
@@ -771,14 +765,22 @@ void AMSMaterialsSetting::Popup(wxString filament, wxString sn, wxString temp_mi
 
     int selection_idx = -1, idx = 0;
     wxArrayString filament_items;
+
+
     std::set<std::string> filament_id_set;
 
     PresetBundle* preset_bundle = wxGetApp().preset_bundle;
     if (preset_bundle) {
         BOOST_LOG_TRIVIAL(trace) << "system_preset_bundle filament number=" << preset_bundle->filaments.size();
         for (auto filament_it = preset_bundle->filaments.begin(); filament_it != preset_bundle->filaments.end(); filament_it++) {
-            // filter by system preset
-            if (!filament_it->is_system) continue;
+            //filter by system preset
+            Preset& preset = *filament_it;
+            /*The situation where the user preset is not displayed is as follows:
+                1. Not a root preset
+                2. Not system preset and the printer firmware does not support user preset */
+            if (preset_bundle->filaments.get_preset_base(*filament_it) != &preset || (!filament_it->is_system && !obj->is_support_user_preset)) {
+                continue;
+            }
 
             for (auto printer_it = preset_bundle->printers.begin(); printer_it != preset_bundle->printers.end(); printer_it++) {
                 // filter by system preset
@@ -786,7 +788,7 @@ void AMSMaterialsSetting::Popup(wxString filament, wxString sn, wxString temp_mi
                 // get printer_model
                 ConfigOption* printer_model_opt = printer_it->config.option("printer_model");
                 ConfigOptionString* printer_model_str = dynamic_cast<ConfigOptionString*>(printer_model_opt);
-                if (!printer_model_str || !obj)
+                if (!printer_model_str )
                     continue;
 
                 // use printer_model as printer type
@@ -802,7 +804,30 @@ void AMSMaterialsSetting::Popup(wxString filament, wxString sn, wxString temp_mi
                         else {
                             filament_id_set.insert(filament_it->filament_id);
                             // name matched
-                            filament_items.push_back(filament_it->alias);
+                            if (filament_it->is_system) {
+                                filament_items.push_back(filament_it->alias);
+                                FilamentInfos filament_infos;
+                                filament_infos.filament_id             = filament_it->filament_id;
+                                filament_infos.setting_id              = filament_it->setting_id;
+                                map_filament_items[filament_it->alias] = filament_infos;
+                            }
+                            else {
+                                char target = '@';
+                                size_t pos = filament_it->name.find(target);
+                                if (pos != std::string::npos) {
+                                    std::string user_preset_alias = filament_it->name.substr(0, pos-1);
+                                    wxString  wx_user_preset_alias = wxString(user_preset_alias.c_str(), wxConvUTF8);
+                                    user_preset_alias = wx_user_preset_alias.ToStdString();
+
+                                    filament_items.push_back(user_preset_alias);
+                                    FilamentInfos filament_infos;
+                                    filament_infos.filament_id            = filament_it->filament_id;
+                                    filament_infos.setting_id             = filament_it->setting_id;
+                                    map_filament_items[user_preset_alias] = filament_infos;
+                                }
+
+                            }
+
                             if (filament_it->filament_id == ams_filament_id) {
                                 selection_idx = idx;
 
@@ -853,7 +878,7 @@ void AMSMaterialsSetting::Popup(wxString filament, wxString sn, wxString temp_mi
             m_readonly_filament->Hide();
         }
 
-        if (obj->is_high_printer_type()) {
+        if (obj->get_printer_series() == PrinterSeries::SERIES_X1) {
             m_title_pa_profile->Show();
             m_comboBox_cali_result->Show();
             m_input_k_val->Disable();
@@ -865,8 +890,8 @@ void AMSMaterialsSetting::Popup(wxString filament, wxString sn, wxString temp_mi
         }
 
         m_button_reset->Show();
-        m_button_confirm->Show(); 
-    } 
+        m_button_confirm->Show();
+    }
 
     m_comboBox_filament->Set(filament_items);
     m_comboBox_filament->SetSelection(selection_idx);
@@ -913,40 +938,44 @@ void AMSMaterialsSetting::on_select_filament(wxCommandEvent &evt)
     PresetBundle* preset_bundle = wxGetApp().preset_bundle;
     if (preset_bundle) {
         for (auto it = preset_bundle->filaments.begin(); it != preset_bundle->filaments.end(); it++) {
-            if (!m_comboBox_filament->GetValue().IsEmpty() && it->alias.compare(m_comboBox_filament->GetValue().ToStdString()) == 0) {
+            if (!m_comboBox_filament->GetValue().IsEmpty()) {
+                auto filament_item = map_filament_items[m_comboBox_filament->GetValue().ToStdString()];
+                std::string filament_id   = filament_item.filament_id;
+                if (it->filament_id.compare(filament_id) == 0) {
 
-                // ) if nozzle_temperature_range is found
-                ConfigOption* opt_min = it->config.option("nozzle_temperature_range_low");
-                if (opt_min) {
-                    ConfigOptionInts* opt_min_ints = dynamic_cast<ConfigOptionInts*>(opt_min);
-                    if (opt_min_ints) {
-                        wxString text_nozzle_temp_min = wxString::Format("%d", opt_min_ints->get_at(0));
-                        m_input_nozzle_min->GetTextCtrl()->SetValue(text_nozzle_temp_min);
+                    // ) if nozzle_temperature_range is found
+                    ConfigOption* opt_min = it->config.option("nozzle_temperature_range_low");
+                    if (opt_min) {
+                        ConfigOptionInts* opt_min_ints = dynamic_cast<ConfigOptionInts*>(opt_min);
+                        if (opt_min_ints) {
+                            wxString text_nozzle_temp_min = wxString::Format("%d", opt_min_ints->get_at(0));
+                            m_input_nozzle_min->GetTextCtrl()->SetValue(text_nozzle_temp_min);
+                        }
                     }
-                }
-                ConfigOption* opt_max = it->config.option("nozzle_temperature_range_high");
-                if (opt_max) {
-                    ConfigOptionInts* opt_max_ints = dynamic_cast<ConfigOptionInts*>(opt_max);
-                    if (opt_max_ints) {
-                        wxString text_nozzle_temp_max = wxString::Format("%d", opt_max_ints->get_at(0));
-                        m_input_nozzle_max->GetTextCtrl()->SetValue(text_nozzle_temp_max);
+                    ConfigOption* opt_max = it->config.option("nozzle_temperature_range_high");
+                    if (opt_max) {
+                        ConfigOptionInts* opt_max_ints = dynamic_cast<ConfigOptionInts*>(opt_max);
+                        if (opt_max_ints) {
+                            wxString text_nozzle_temp_max = wxString::Format("%d", opt_max_ints->get_at(0));
+                            m_input_nozzle_max->GetTextCtrl()->SetValue(text_nozzle_temp_max);
+                        }
                     }
-                }
-                ConfigOption* opt_type = it->config.option("filament_type");
-                bool found_filament_type = false;
-                if (opt_type) {
-                    ConfigOptionStrings* opt_type_strs = dynamic_cast<ConfigOptionStrings*>(opt_type);
-                    if (opt_type_strs) {
-                        found_filament_type = true;
-                        //m_filament_type = opt_type_strs->get_at(0);
-                        std::string display_filament_type;
-                        m_filament_type = it->config.get_filament_type(display_filament_type);
+                    ConfigOption* opt_type = it->config.option("filament_type");
+                    bool found_filament_type = false;
+                    if (opt_type) {
+                        ConfigOptionStrings* opt_type_strs = dynamic_cast<ConfigOptionStrings*>(opt_type);
+                        if (opt_type_strs) {
+                            found_filament_type = true;
+                            //m_filament_type = opt_type_strs->get_at(0);
+                            std::string display_filament_type;
+                            m_filament_type = it->config.get_filament_type(display_filament_type);
+                        }
                     }
-                }
-                if (!found_filament_type)
-                    m_filament_type = "";
+                    if (!found_filament_type)
+                        m_filament_type = "";
 
-                break;
+                    break;
+                }
             }
         }
     }
@@ -974,7 +1003,7 @@ void AMSMaterialsSetting::on_select_filament(wxCommandEvent &evt)
     }
     else {
         m_button_confirm->SetBackgroundColor(m_btn_bg_green);
-        m_button_confirm->SetBorderColor(wxColour(0, 10, 156));
+        m_button_confirm->SetBorderColor(wxColour(0xff8500));
         m_button_confirm->SetTextColor(wxColour("#FFFFFE"));
         m_button_confirm->Enable(true);
     }
@@ -985,6 +1014,13 @@ void AMSMaterialsSetting::on_select_filament(wxCommandEvent &evt)
 
     if (preset_bundle) {
         for (auto it = preset_bundle->filaments.begin(); it != preset_bundle->filaments.end(); it++) {
+            auto itor = map_filament_items.find(m_comboBox_filament->GetValue().ToStdString());
+            if ( itor != map_filament_items.end()) {
+                ams_filament_id = itor->second.filament_id;
+                ams_setting_id  = itor->second.setting_id;
+                break;
+            }
+
             if (it->alias.compare(m_comboBox_filament->GetValue().ToStdString()) == 0) {
                 ams_filament_id = it->filament_id;
                 ams_setting_id = it->setting_id;
@@ -996,8 +1032,8 @@ void AMSMaterialsSetting::on_select_filament(wxCommandEvent &evt)
     wxArrayString items;
     m_pa_profile_items.clear();
     m_comboBox_cali_result->SetValue(wxEmptyString);
-    
-    if (this->obj->is_high_printer_type()) {
+
+    if (obj->get_printer_series() == PrinterSeries::SERIES_X1) {
         m_input_k_val->GetTextCtrl()->SetValue(wxEmptyString);
         std::vector<PACalibResult> cali_history = this->obj->pa_calib_tab;
         for (auto cali_item : cali_history) {
@@ -1025,7 +1061,7 @@ void AMSMaterialsSetting::on_select_filament(wxCommandEvent &evt)
                 m_comboBox_cali_result->SetSelection(cali_select_idx);
             }
         }
-        
+
         if (cali_select_idx >= 0) {
             m_input_k_val->GetTextCtrl()->SetValue(std::to_string(m_pa_profile_items[cali_select_idx].k_value));
             m_input_n_val->GetTextCtrl()->SetValue(std::to_string(m_pa_profile_items[cali_select_idx].n_coef));
@@ -1043,8 +1079,8 @@ void AMSMaterialsSetting::on_select_filament(wxCommandEvent &evt)
     }
 }
 
-void AMSMaterialsSetting::on_dpi_changed(const wxRect &suggested_rect) 
-{ 
+void AMSMaterialsSetting::on_dpi_changed(const wxRect &suggested_rect)
+{
     m_input_nozzle_max->GetTextCtrl()->SetSize(wxSize(-1, FromDIP(20)));
     m_input_nozzle_min->GetTextCtrl()->SetSize(wxSize(-1, FromDIP(20)));
     //m_clr_picker->msw_rescale();
@@ -1057,7 +1093,7 @@ void AMSMaterialsSetting::on_dpi_changed(const wxRect &suggested_rect)
     m_button_confirm->SetCornerRadius(FromDIP(12));
     m_button_close->SetMinSize(AMS_MATERIALS_SETTING_BUTTON_SIZE);
     m_button_close->SetCornerRadius(FromDIP(12));
-    this->Refresh(); 
+    this->Refresh();
 }
 
 ColorPicker::ColorPicker(wxWindow* parent, wxWindowID id, const wxPoint& pos /*= wxDefaultPosition*/, const wxSize& size /*= wxDefaultSize*/)
@@ -1450,7 +1486,7 @@ void ColorPickerPopup::paintEvent(wxPaintEvent& evt)
 
 void ColorPickerPopup::OnDismiss() {}
 
-void ColorPickerPopup::Popup() 
+void ColorPickerPopup::Popup()
 {
     PopupWindow::Popup();
 }

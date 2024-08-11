@@ -53,7 +53,7 @@ CalibrationDialog::CalibrationDialog(Plater *plater)
     select_vibration    = create_check_option(_L("Vibration compensation"), cali_left_panel, _L("Vibration compensation"), "vibration");
     select_motor_noise  = create_check_option(_L("Motor noise cancellation"), cali_left_panel, _L("Motor noise cancellation"), "motor_noise");
 
-    
+
 
     cali_left_sizer->Add(0, FromDIP(18), 0, wxEXPAND, 0);
     cali_left_sizer->Add(select_xcam_cali, 0, wxLEFT, FromDIP(15));
@@ -125,7 +125,7 @@ CalibrationDialog::CalibrationDialog(Plater *plater)
     auto calibration_sizer = new wxBoxSizer(wxVERTICAL);
     calibration_panel->SetMinSize(wxSize(FromDIP(170), FromDIP(160)));
     calibration_panel->SetSize(wxSize(FromDIP(170), FromDIP(160)));
-   
+
     m_calibration_flow = new StepIndicator(calibration_panel, wxID_ANY);
     StateColor bg_color(std::pair<wxColour, int>(BG_COLOR, StateColor::Normal));
     m_calibration_flow->SetBackgroundColor(bg_color);
@@ -133,13 +133,13 @@ CalibrationDialog::CalibrationDialog(Plater *plater)
 
     m_calibration_flow->SetMinSize(wxSize(FromDIP(170), FromDIP(160)));
     m_calibration_flow->SetSize(wxSize(FromDIP(170), FromDIP(160)));
-    
+
     calibration_panel->SetSizer(calibration_sizer);
     calibration_panel->Layout();
     calibration_sizer->Add(m_calibration_flow, 0, wxEXPAND, 0);
 
-    StateColor btn_bg_green(std::pair<wxColour, int>(AMS_CONTROL_DISABLE_COLOUR, StateColor::Disabled), std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed),
-                            std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
+    StateColor btn_bg_green(std::pair<wxColour, int>(AMS_CONTROL_DISABLE_COLOUR, StateColor::Disabled), std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed),
+                            std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
     StateColor btn_bd_green(std::pair<wxColour, int>(AMS_CONTROL_WHITE_COLOUR, StateColor::Disabled), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Enabled));
 
     m_calibration_btn = new Button(cali_right_panel, _L("Start Calibration"));
@@ -215,36 +215,27 @@ wxWindow* CalibrationDialog::create_check_option(wxString title, wxWindow* paren
 void CalibrationDialog::update_cali(MachineObject *obj)
 {
     if (!obj) return;
-    if (obj->is_function_supported(PrinterFunction::FUNC_AI_MONITORING)
-        && obj->is_function_supported(PrinterFunction::FUNC_LIDAR_CALIBRATION)) {
+    if (obj->is_support_ai_monitoring && obj->is_support_lidar_calibration) {
         select_xcam_cali->Show();
     } else {
         select_xcam_cali->Hide();
         m_checkbox_list["xcam_cali"]->SetValue(false);
     }
-    
-    if(obj->is_function_supported(PrinterFunction::FUNC_AUTO_LEVELING)){
+
+    if(obj->is_support_auto_leveling){
         select_bed_leveling->Show();
     }else{
         select_bed_leveling->Hide();
         m_checkbox_list["bed_leveling"]->SetValue(false);
     }
 
-    if (obj->is_function_supported(PrinterFunction::FUNC_MOTOR_NOISE_CALI)) {
+    if (obj->is_support_motor_noise_cali) {
         select_motor_noise->Show();
     } else {
         select_motor_noise->Hide();
         m_checkbox_list["motor_noise"]->SetValue(false);
     }
 
-    if (!m_checkbox_list["vibration"]->GetValue() && !m_checkbox_list["bed_leveling"]->GetValue() && !m_checkbox_list["xcam_cali"]->GetValue() &&
-        !m_checkbox_list["motor_noise"]->GetValue()) {
-        m_calibration_btn->Disable();
-        m_calibration_btn->SetLabel(_L("No step selected"));
-        return ;
-    } else {
-        m_calibration_btn->Enable();
-    }
 
     if (obj->is_calibration_running() || obj->is_calibration_done()) {
         if (obj->is_calibration_done()) {
@@ -282,6 +273,14 @@ void CalibrationDialog::update_cali(MachineObject *obj)
         m_calibration_flow->DeleteAllItems();
         m_calibration_btn->SetLabel(_L("Start Calibration"));
     }
+    if (!obj->is_calibration_running() && !m_checkbox_list["vibration"]->GetValue() && !m_checkbox_list["bed_leveling"]->GetValue() &&
+        !m_checkbox_list["xcam_cali"]->GetValue() && !m_checkbox_list["motor_noise"]->GetValue()) {
+        m_calibration_btn->Disable();
+        m_calibration_btn->SetLabel(_L("No step selected"));
+    }
+    else if(!obj->is_calibration_running()){
+        m_calibration_btn->Enable();
+    }
 }
 
 bool CalibrationDialog::is_stage_list_info_changed(MachineObject *obj)
@@ -318,11 +317,11 @@ void CalibrationDialog::on_start_calibration(wxMouseEvent &event)
 
 void CalibrationDialog::update_machine_obj(MachineObject *obj) { m_obj = obj; }
 
-bool CalibrationDialog::Show(bool show) 
+bool CalibrationDialog::Show(bool show)
 {
-    if (show) { 
+    if (show) {
         wxGetApp().UpdateDlgDarkUI(this);
-        CentreOnParent(); 
+        CentreOnParent();
     }
     return DPIDialog::Show(show);
 }

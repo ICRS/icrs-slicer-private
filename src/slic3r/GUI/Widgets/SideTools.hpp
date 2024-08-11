@@ -14,7 +14,7 @@
 #define SIDE_TOOLS_GREY900 wxColour(38, 46, 48)
 #define SIDE_TOOLS_GREY600 wxColour(144, 144, 144)
 #define SIDE_TOOLS_GREY400 wxColour(206, 206, 206)
-#define SIDE_TOOLS_BRAND wxColour(0, 10, 156)
+#define SIDE_TOOLS_BRAND wxColour(0xff8500)
 #define SIDE_TOOLS_LIGHT_GREEN wxColour(219, 253, 231)
 
 enum WifiSignal {
@@ -98,8 +98,8 @@ public:
 
 private:
     SideToolsPanel* m_side_tools{ nullptr };
-    Tabbook*		m_tabpanel{ nullptr };
-    Label* m_link_network_state{ nullptr };
+    Tabbook*        m_tabpanel{ nullptr };
+    wxHyperlinkCtrl* m_link_network_state{ nullptr };
     Label* m_st_txt_error_code{ nullptr };
     Label* m_st_txt_error_desc{ nullptr };
     Label* m_st_txt_extra_info{ nullptr };

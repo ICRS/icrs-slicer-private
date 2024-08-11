@@ -19,7 +19,7 @@ namespace Slic3r { namespace GUI {
 
 #define DESIGN_SELECTOR_NOMORE_COLOR wxColour(248, 248, 248)
 #define DESIGN_GRAY900_COLOR wxColour(38, 46, 48)
-#define DESIGN_GRAY800_COLOR wxColour(50, 58, 61)
+#define DESIGN_GRAY800_COLOR wxColour(255, 255, 255)
 #define DESIGN_GRAY600_COLOR wxColour(144, 144, 144)
 #define DESIGN_GRAY400_COLOR wxColour(166, 169, 170)
 
@@ -41,6 +41,7 @@ public:
     RadioBox *m_radiobox;
     bool      m_selected = false;
 };
+
 WX_DECLARE_LIST(RadioSelector, RadioSelectorList);
 class CheckBox;
 class TextInput;
@@ -61,7 +62,7 @@ private:
 
 protected:
     wxBoxSizer *  m_sizer_body;
-    wxScrolledWindow *m_scrolledWindow;
+    wxScrolledWindow* m_scrolledWindow;
 
     // bool								m_settings_layout_changed {false};
     bool m_seq_top_layer_only_changed{false};

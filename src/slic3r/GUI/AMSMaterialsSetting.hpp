@@ -17,7 +17,7 @@
 
 #define AMS_MATERIALS_SETTING_DEF_COLOUR wxColour(255, 255, 255)
 #define AMS_MATERIALS_SETTING_GREY900 wxColour(38, 46, 48)
-#define AMS_MATERIALS_SETTING_GREY800 wxColour(50, 58, 61)
+#define AMS_MATERIALS_SETTING_GREY800 wxColour(255, 255, 255)
 #define AMS_MATERIALS_SETTING_GREY700 wxColour(107, 107, 107)
 #define AMS_MATERIALS_SETTING_GREY300 wxColour(174,174,174)
 #define AMS_MATERIALS_SETTING_GREY200 wxColour(248, 248, 248)
@@ -180,6 +180,12 @@ protected:
 #endif
     ComboBox * m_comboBox_cali_result;
     TextInput*       m_readonly_filament;
+
+    struct FilamentInfos {
+        std::string filament_id;
+        std::string setting_id;
+    };
+    std::map<std::string, FilamentInfos> map_filament_items;
 };
 
 wxDECLARE_EVENT(EVT_SELECTED_COLOR, wxCommandEvent);

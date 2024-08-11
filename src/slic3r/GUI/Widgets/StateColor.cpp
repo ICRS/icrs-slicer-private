@@ -5,7 +5,7 @@ static bool gDarkMode = false;
 static bool operator<(wxColour const &l, wxColour const &r) { return l.GetRGBA() < r.GetRGBA(); }
 
 static std::map<wxColour, wxColour> gDarkColors{
-    {"#0085ff", "#00675b"},
+    {"#0085ff", "#0085ff"},
     {"#1F8EEA", "#2778D2"},
     {"#FF6F00", "#D15B00"},
     {"#D01B1B", "#BB2A3A"},
@@ -15,7 +15,7 @@ static std::map<wxColour, wxColour> gDarkColors{
     {"#ACACAC", "#54545A"},
     {"#EEEEEE", "#4C4C55"},
     {"#E8E8E8", "#3E3E45"},
-    {"#323A3D", "#E5E5E4"},
+    {"#5476b0", "#E5E5E4"},
     {"#FFFFFF", "#2D2D31"},
     {"#F8F8F8", "#36363C"},
     {"#F1F1F1", "#36363B"},
@@ -41,7 +41,7 @@ static std::map<wxColour, wxColour> gDarkColors{
     //{"#F0F0F0", "#4C4C54"},
 };
 
-std::map<wxColour, wxColour> const & StateColor::GetDarkMap() 
+std::map<wxColour, wxColour> const & StateColor::GetDarkMap()
 {
     return gDarkColors;
 }

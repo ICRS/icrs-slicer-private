@@ -132,23 +132,24 @@ MsgUpdateConfig::MsgUpdateConfig(const std::vector<Update> &updates, bool force_
 
     m_sizer_right->Add(0, 0, 1, wxTOP, FromDIP(15));
 
-    auto m_scrollwindw_release_note = new wxScrolledWindow(this, wxID_ANY, wxDefaultPosition, wxSize(FromDIP(560), FromDIP(430)));
-    m_scrollwindw_release_note->SetScrollRate(5, 5);
+    auto m_scrollwindw_release_note = new wxScrolledWindow(this, wxID_ANY, wxDefaultPosition, wxSize(FromDIP(560), FromDIP(430)),wxVSCROLL);
+    m_scrollwindw_release_note->SetScrollRate(0, 5);
     m_scrollwindw_release_note->SetBackgroundColour(wxColour(0xF8, 0xF8, 0xF8));
-    m_scrollwindw_release_note->SetMaxSize(wxSize(FromDIP(540), FromDIP(410)));
+    m_scrollwindw_release_note->SetMaxSize(wxSize(FromDIP(560), FromDIP(430)));
+    m_scrollwindw_release_note->SetWindowStyle(wxVSCROLL);
 
 	auto sizer_button = new wxBoxSizer(wxHORIZONTAL);
     sizer_button->Add(0, 0, 1, wxEXPAND, 5);
 
 
-	StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed),
-                            std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
+	StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed),
+                            std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered), std::pair<wxColour, int>(AMS_CONTROL_BRAND_COLOUR, StateColor::Normal));
 
     StateColor btn_bg_white(std::pair<wxColour, int>(wxColour(206, 206, 206), StateColor::Pressed),
                             std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Hovered),
                             std::pair<wxColour, int>(*wxWHITE, StateColor::Normal));
 
-  
+
 	auto m_butto_ok = new Button(this, _L("OK"));
     m_butto_ok->SetBackgroundColor(btn_bg_green);
     m_butto_ok->SetBorderColor(*wxWHITE);
@@ -172,13 +173,13 @@ MsgUpdateConfig::MsgUpdateConfig(const std::vector<Update> &updates, bool force_
 	m_sizer_right->Add(m_scrollwindw_release_note, 0, wxEXPAND | wxRIGHT, FromDIP(20));
     m_sizer_right->Add(sizer_button, 0, wxEXPAND | wxRIGHT, FromDIP(20));
 
-    
+
     m_sizer_body->Add(m_sizer_right, 1, wxBOTTOM | wxEXPAND, FromDIP(30));
     m_sizer_main->Add(m_sizer_body, 0, wxEXPAND, 0);
 
 	wxBoxSizer *content_sizer             = new wxBoxSizer(wxVERTICAL);
 
-   
+
 
 
 
@@ -200,27 +201,30 @@ MsgUpdateConfig::MsgUpdateConfig(const std::vector<Update> &updates, bool force_
         // BBS: use changelog string instead of url
         if (!update.comment.empty()) {
             flex->Add(new wxStaticText(m_scrollwindw_release_note, wxID_ANY, _(L("Description:"))), 0, wxALIGN_RIGHT);
-            auto *update_comment = new wxStaticText(m_scrollwindw_release_note, wxID_ANY, from_u8(update.comment));
-            update_comment->Wrap(FromDIP(242) * wxGetApp().em_unit());
+            auto *update_comment = new Label(m_scrollwindw_release_note,std::string(""));
+            update_comment->SetLabel(from_u8(update.comment));
+            update_comment->SetMaxSize(wxSize(FromDIP(545), -1));
+            update_comment->SetMinSize(wxSize(FromDIP(545), -1));
+            update_comment->Wrap(FromDIP(450));
             flex->Add(update_comment);
         }
 
         versions->Add(flex);
 
-		
+
 
         // BBS: use changelog string instead of url
 
-			//auto change_log = new wxStaticText(m_scrollwindw_release_note, wxID_ANY, from_u8(update.change_log), wxDefaultPosition, wxDefaultSize); 
+			//auto change_log = new wxStaticText(m_scrollwindw_release_note, wxID_ANY, from_u8(update.change_log), wxDefaultPosition, wxDefaultSize);
 			changelog_textctrl->SetLabel(changelog_textctrl->GetLabel() + wxString::Format("%s\n", from_u8(update.change_log)));
     }
 
 	content_sizer->Add(versions);
 
-	
+
 
     ////BBS: use changelog string instead of url
-    if (changelog_textctrl) 
+    if (changelog_textctrl)
 		content_sizer->Add(changelog_textctrl, 1, wxEXPAND | wxTOP, FromDIP(30));
 
 
@@ -254,7 +258,7 @@ MsgUpdateForced::MsgUpdateForced(const std::vector<Update>& updates) :
 		"The configuration package is incompatible with current application.\n"
 		"%s will update the configuration package, Otherwise it won't be able to start"
 	)), SLIC3R_APP_FULL_NAME));
-	
+
 
 	text->Wrap(CONTENT_WIDTH * wxGetApp().em_unit());
 	content_sizer->Add(text);
@@ -321,7 +325,7 @@ MsgDataIncompatible::MsgDataIncompatible(const std::unordered_map<std::string, w
 	//	"This probably happened as a result of running an older %s after using a newer one.\n\n"
 
 	//	"You may either exit %s and try again with a newer version, or you may re-run the initial configuration. "
-	//	"Doing so will create a backup snapshot of the existing configuration before installing files compatible with this %s.")) + "\n", 
+	//	"Doing so will create a backup snapshot of the existing configuration before installing files compatible with this %s.")) + "\n",
 	//	SLIC3R_APP_NAME, SLIC3R_APP_NAME, SLIC3R_APP_NAME, SLIC3R_APP_NAME));
 	//text->Wrap(CONTENT_WIDTH * wxGetApp().em_unit());
 	//content_sizer->Add(text);

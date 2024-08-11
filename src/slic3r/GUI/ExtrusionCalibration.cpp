@@ -16,7 +16,7 @@ ExtrusionCalibration::ExtrusionCalibration(wxWindow *parent, wxWindowID id)
     wxGetApp().UpdateDlgDarkUI(this);
 }
 
-void ExtrusionCalibration::init_bitmaps() 
+void ExtrusionCalibration::init_bitmaps()
 {
     auto lan = wxGetApp().app_config->get_language_code();
     if (lan == "zh-cn") {
@@ -169,21 +169,21 @@ void ExtrusionCalibration::create()
     m_error_text->Hide();
 
     m_button_cali = new Button(m_step_1_panel, _L("Start calibration"));
-    m_btn_bg_green = StateColor(std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Disabled), std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed), std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
+    m_btn_bg_green = StateColor(std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Disabled), std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal));
     m_button_cali->SetBackgroundColor(m_btn_bg_green);
     m_button_cali->SetFont(Label::Body_13);
-    m_button_cali->SetBorderColor({ std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Disabled), std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Enabled) });
+    m_button_cali->SetBorderColor({ std::pair<wxColour, int>(wxColour(238, 238, 238), StateColor::Disabled), std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Enabled) });
     m_button_cali->SetTextColor({ std::pair<wxColour, int>(wxColour(172, 172, 172), StateColor::Disabled), std::pair<wxColour, int>(EXTRUSION_CALIBRATION_GREY200, StateColor::Enabled) });
     m_button_cali->SetCornerRadius(FromDIP(12));
     m_button_cali->SetMinSize(wxSize(-1, FromDIP(24)));
     m_button_cali->Bind(wxEVT_BUTTON, &ExtrusionCalibration::on_click_cali, this);
 
     m_cali_cancel = new Button(m_step_1_panel, _L("Cancel"));
-    m_btn_bg_green = StateColor(std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed), std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
+    m_btn_bg_green = StateColor(std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal));
     m_cali_cancel->SetBackgroundColor(m_btn_bg_green);
-    m_cali_cancel->SetBorderColor(wxColour(0, 10, 156));
+    m_cali_cancel->SetBorderColor(wxColour(0xff8500));
     m_cali_cancel->SetTextColor(EXTRUSION_CALIBRATION_GREY200);
     m_cali_cancel->SetMinSize(EXTRUSION_CALIBRATION_BUTTON_SIZE);
     m_cali_cancel->SetCornerRadius(FromDIP(12));
@@ -209,7 +209,7 @@ void ExtrusionCalibration::create()
     cali_sizer->Add(m_button_cali, 0, wxRIGHT | wxALIGN_CENTRE_VERTICAL, FromDIP(10));
     cali_sizer->Add(m_cali_cancel, 0, wxRIGHT | wxALIGN_CENTRE_VERTICAL, FromDIP(10));
     cali_sizer->Add(m_button_next_step, 0, wxRIGHT | wxALIGN_CENTRE_VERTICAL, FromDIP(10));
-    
+
     step_1_sizer->Add(cali_sizer, 0, wxEXPAND);
     step_1_sizer->Add(0, EXTRUSION_CALIBRATION_WIDGET_GAP, 0, 0);
 
@@ -255,11 +255,11 @@ void ExtrusionCalibration::create()
 
     // save button
     m_button_save_result = new Button(m_step_2_panel, _L("Save"));
-    m_btn_bg_green = StateColor(std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed), std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
+    m_btn_bg_green = StateColor(std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal));
     m_button_save_result->SetBackgroundColor(m_btn_bg_green);
     m_button_save_result->SetFont(Label::Body_13);
-    m_button_save_result->SetBorderColor(wxColour(0, 10, 156));
+    m_button_save_result->SetBorderColor(wxColour(0xff8500));
     m_button_save_result->SetTextColor(EXTRUSION_CALIBRATION_GREY200);
     m_button_save_result->SetMinSize(EXTRUSION_CALIBRATION_BUTTON_SIZE);
     m_button_save_result->SetCornerRadius(FromDIP(12));
@@ -375,7 +375,7 @@ void ExtrusionCalibration::open_bitmap(wxMouseEvent& event) {
     return;
 }
 
-void ExtrusionCalibration::input_value_finish() 
+void ExtrusionCalibration::input_value_finish()
 {
     ;
 }
@@ -412,7 +412,7 @@ void ExtrusionCalibration::show_info(bool show, bool is_error, wxString text)
 void ExtrusionCalibration::update()
 {
     if (obj) {
-        if (obj->is_in_extrusion_cali()) {            
+        if (obj->is_in_extrusion_cali()) {
             show_info(true, false, wxString::Format(_L("Calibrating... %d%%"), obj->mc_print_percent));
             m_cali_cancel->Show();
             m_cali_cancel->Enable();
@@ -508,7 +508,7 @@ bool ExtrusionCalibration::check_k_validation(wxString k_text)
         ;
     }
 
-    if (k < 0 || k > 0.5)
+    if (k < 0 || k > 0.3)
         return false;
     return true;
 }
@@ -544,8 +544,8 @@ void ExtrusionCalibration::on_click_save(wxCommandEvent &event)
     wxString k_text = m_k_val->GetTextCtrl()->GetValue();
     wxString n_text = m_n_val->GetTextCtrl()->GetValue();
     if (!ExtrusionCalibration::check_k_validation(k_text)) {
-        wxString k_tips = _L("Please input a valid value (K in 0~0.5)");
-        wxString kn_tips = _L("Please input a valid value (K in 0~0.5, N in 0.6~2.0)");
+        wxString k_tips = _L("Please input a valid value (K in 0~0.3)");
+        wxString kn_tips = _L("Please input a valid value (K in 0~0.3, N in 0.6~2.0)");
         MessageDialog msg_dlg(nullptr, k_tips, wxEmptyString, wxICON_WARNING | wxOK);
         msg_dlg.ShowModal();
         return;
@@ -611,13 +611,13 @@ void ExtrusionCalibration::on_click_next(wxCommandEvent& event)
     set_step(2);
 }
 
-bool ExtrusionCalibration::Show(bool show) 
-{ 
+bool ExtrusionCalibration::Show(bool show)
+{
     if (show) {
         m_k_val->GetTextCtrl()->SetSize(wxSize(-1, FromDIP(20)));
         m_n_val->GetTextCtrl()->SetSize(wxSize(-1, FromDIP(20)));
     }
-    return DPIDialog::Show(show); 
+    return DPIDialog::Show(show);
 }
 
 void ExtrusionCalibration::update_combobox_filaments()
@@ -807,7 +807,7 @@ void ExtrusionCalibration::update_filament_info()
                 bed_temp_int = get_bed_temp(&filament_it->config);
                 wxString bed_temp_text = wxString::Format("%d", bed_temp_int);
                 m_bed_temp->GetTextCtrl()->SetValue(bed_temp_text);
-                
+
                 // update max flow speed
                 ConfigOption* opt_flow_speed = filament_it->config.option("filament_max_volumetric_speed");
                 if (opt_flow_speed) {

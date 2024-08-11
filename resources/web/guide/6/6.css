@@ -2,8 +2,8 @@
 {
 	padding: 0;
 	border: 0;
-	margin: 0;		
-    font-family: "system-ui", "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-sans;	
+	margin: 0;
+    font-family: "system-ui", "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-sans;
 }
 
 html,body
@@ -14,7 +14,7 @@ html,body
 
 .LinkBtn
 {
-	color: #1200FF;	
+	color: #1200FF;
 	cursor: pointer;
 }
 
@@ -32,13 +32,13 @@ html,body
 	border-radius: 6px;
 	color: #fff;
 	cursor: pointer;
-	display: inline-block;	
+	display: inline-block;
 	border: 1px solid #02c7b3;
 }
 
 .Btn_Green:hover
 {
-	background-color:#4db6ac;
+	background-color:#2b87ff;
 
 }
 
@@ -86,7 +86,7 @@ html,body
 {
 	height:20px;
 	background-color:#CFCFCF;
-	border-radius: 20px;	
+	border-radius: 20px;
 }
 
 #PercentTip
@@ -95,7 +95,7 @@ html,body
 	height:20px;
 	width: 0%;
 	background-color:#0085ff;
-	border-radius: 20px;		
+	border-radius: 20px;
 }
 
 #DownSuccessTip

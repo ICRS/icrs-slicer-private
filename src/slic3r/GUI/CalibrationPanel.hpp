@@ -10,7 +10,7 @@ namespace Slic3r { namespace GUI {
 #define SELECT_MACHINE_GREY900 wxColour(38, 46, 48)
 #define SELECT_MACHINE_GREY600 wxColour(144,144,144)
 #define SELECT_MACHINE_GREY400 wxColour(206, 206, 206)
-#define SELECT_MACHINE_BRAND wxColour(0, 10, 156)
+#define SELECT_MACHINE_BRAND wxColour(0xff8500)
 #define SELECT_MACHINE_REMIND wxColour(255,111,0)
 #define SELECT_MACHINE_LIGHT_GREEN wxColour(219, 253, 231)
 
@@ -89,6 +89,7 @@ private:
     std::vector<MPanel*>                m_user_list_machine_panel;
     boost::thread*                      get_print_info_thread{ nullptr };
     std::string                         m_print_info;
+    std::shared_ptr<int>                m_token = std::make_shared<int>(0);
     std::map<std::string, MachineObject*> m_bind_machine_list;
 
 private:

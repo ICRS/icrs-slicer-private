@@ -61,11 +61,11 @@ TipsDialog::TipsDialog(wxWindow *parent, const wxString &title, const wxString &
     wxBoxSizer *m_sizer_right = new wxBoxSizer(wxHORIZONTAL);
 
     m_confirm = new Button(this, _L("OK"));
-    StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed), std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-                            std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
+    StateColor btn_bg_green(std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed), std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered),
+                            std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal));
 
     m_confirm->SetBackgroundColor(btn_bg_green);
-    m_confirm->SetBorderColor(wxColour(0, 10, 156));
+    m_confirm->SetBorderColor(wxColour(0xff8500));
     m_confirm->SetTextColor(wxColour(255, 255, 255));
     m_confirm->SetSize(TIPS_DIALOG_BUTTON_SIZE);
     m_confirm->SetMinSize(TIPS_DIALOG_BUTTON_SIZE);
@@ -392,6 +392,10 @@ void ParamsPanel::create_layout()
         m_left_sizer->Add( m_tab_print, 0, wxEXPAND );
     }
 
+    if (m_tab_print_plate) {
+        m_left_sizer->Add(m_tab_print_plate, 0, wxEXPAND);
+    }
+
     if (m_tab_print_object) {
         m_left_sizer->Add( m_tab_print_object, 0, wxEXPAND );
     }
@@ -482,6 +486,7 @@ void ParamsPanel::refresh_tabs()
             }
         }
     if (m_top_panel) {
+        m_tab_print_plate = wxGetApp().get_plate_tab();
         m_tab_print_object = wxGetApp().get_model_tab();
         m_tab_print_part = wxGetApp().get_model_tab(true);
         m_tab_print_layer = wxGetApp().get_layer_tab();
@@ -558,6 +563,8 @@ void ParamsPanel::set_active_tab(wxPanel* tab)
             cur_tab = (Tab*)m_tab_print_layer;
         } else if (m_tab_print_object && ((TabPrintModel*) m_tab_print_object)->has_model_config()) {
             cur_tab = (Tab*) m_tab_print_object;
+        } else if (m_tab_print_plate && ((TabPrintPlate*)m_tab_print_plate)->has_model_config()) {
+            cur_tab = (Tab*)m_tab_print_plate;
         }
         Show(cur_tab != nullptr);
         wxGetApp().sidebar().show_object_list(m_mode_region->GetValue());
@@ -578,6 +585,7 @@ void ParamsPanel::set_active_tab(wxPanel* tab)
             {m_tab_print_object, m_staticline_print_object},
             {m_tab_print_part, m_staticline_print_part},
             {m_tab_print_layer, nullptr},
+            {m_tab_print_plate, nullptr},
             {m_tab_filament, m_staticline_filament},
             {m_tab_printer, m_staticline_printer}})) {
         if (!t.first) continue;
@@ -650,7 +658,7 @@ void ParamsPanel::msw_rescale()
         ((SwitchButton* )m_mode_region)->Rescale();
     if (m_mode_view)
         ((SwitchButton* )m_mode_view)->Rescale();
-    for (auto tab : {m_tab_print, m_tab_print_object, m_tab_print_part, m_tab_print_layer, m_tab_filament, m_tab_printer}) {
+    for (auto tab : {m_tab_print, m_tab_print_plate, m_tab_print_object, m_tab_print_part, m_tab_print_layer, m_tab_filament, m_tab_printer}) {
         if (tab) dynamic_cast<Tab*>(tab)->msw_rescale();
     }
     //((Button*)m_export_to_file)->Rescale();

@@ -23,12 +23,12 @@ ConnectPrinterDialog::ConnectPrinterDialog(wxWindow *parent, wxWindowID id, cons
 
     m_staticText_connection_code = new wxStaticText(this, wxID_ANY, _L("Please input the printer access code:"), wxDefaultPosition, wxDefaultSize, 0);
     m_staticText_connection_code->SetFont(Label::Body_15);
-    m_staticText_connection_code->SetForegroundColour(wxColour(50, 58, 61));
+    m_staticText_connection_code->SetForegroundColour(wxColour(255, 255, 255));
     m_staticText_connection_code->Wrap(-1);
     sizer_top->Add(m_staticText_connection_code, 0, wxALL, 0);
 
     sizer_top->Add(0, FromDIP(10));
-	
+
     wxBoxSizer *sizer_connect;
     sizer_connect = new wxBoxSizer(wxHORIZONTAL);
 
@@ -53,12 +53,12 @@ ConnectPrinterDialog::ConnectPrinterDialog(wxWindow *parent, wxWindowID id, cons
     m_button_confirm->SetTextColor(wxColour("#FFFFFE"));
 
     StateColor btn_bg(
-        std::pair<wxColour, int>(wxColour(0, 137, 123), StateColor::Pressed),
-        std::pair<wxColour, int>(wxColour(38, 166, 154), StateColor::Hovered),
-        std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal)
+        std::pair<wxColour, int>(wxColour(0xd06500), StateColor::Pressed),
+        std::pair<wxColour, int>(wxColour(0xffad54), StateColor::Hovered),
+        std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal)
     );
 
-    StateColor btn_bd(std::pair<wxColour, int>(wxColour(0, 10, 156), StateColor::Normal));
+    StateColor btn_bd(std::pair<wxColour, int>(wxColour(0xff8500), StateColor::Normal));
 
     StateColor btn_text(std::pair<wxColour, int>(wxColour(255, 255, 255), StateColor::Normal));
 
@@ -67,7 +67,7 @@ ConnectPrinterDialog::ConnectPrinterDialog(wxWindow *parent, wxWindowID id, cons
     m_button_confirm->SetTextColor(btn_text);
 
     sizer_connect->Add(m_button_confirm, 0, wxALL | wxALIGN_CENTER_VERTICAL, 0);
-    
+
     sizer_connect->Add(FromDIP(60), 0);
 
     sizer_top->Add(sizer_connect);
@@ -76,7 +76,7 @@ ConnectPrinterDialog::ConnectPrinterDialog(wxWindow *parent, wxWindowID id, cons
 
     m_staticText_hints = new wxStaticText(this, wxID_ANY, _L("You can find it in \"Settings > Network > Connection code\"\non the printer, as shown in the figure:"), wxDefaultPosition, wxDefaultSize, 0);
     m_staticText_hints->SetFont(Label::Body_15);
-    m_staticText_hints->SetForegroundColour(wxColour(50, 58, 61));
+    m_staticText_hints->SetForegroundColour(wxColour(255, 255, 255));
     m_staticText_hints->Wrap(-1);
     sizer_top->Add(m_staticText_hints, 0, wxALL, 0);
 
@@ -118,32 +118,22 @@ void ConnectPrinterDialog::init_bitmap()
     std::string language = config->get("language");
 
     if (m_obj) {
-        if (m_obj->printer_type == "C11" || m_obj->printer_type == "C12") {
-            m_diagram_bmp = create_scaled_bitmap("input_accesscode_help2", nullptr, 190);
-        }
-        else if (m_obj->printer_type == "BL-P001" || m_obj->printer_type == "BL-P002" || m_obj->printer_type == "C13") {
-            if (language == "zh_CN") {
-                m_diagram_bmp = create_scaled_bitmap("input_access_code_cn", nullptr, 190);
-            }
-            else {
-                m_diagram_bmp = create_scaled_bitmap("input_access_code_en", nullptr, 190);
-            }
-        }
-        else if (m_obj->printer_type == "N1") {
-            if (language == "zh_CN") {
-                m_diagram_bmp = create_scaled_bitmap("input_access_code_n1_cn", nullptr, 250);
-            }
-            else {
-                m_diagram_bmp = create_scaled_bitmap("input_access_code_n1_en", nullptr, 250);
-            }
-        }
-    }
-    else {
+        std::string img_str = DeviceManager::get_printer_diagram_img(m_obj->printer_type);
+        if(img_str.empty()){img_str = "input_access_code_x1"; }
+
         if (language == "zh_CN") {
-            m_diagram_bmp = create_scaled_bitmap("input_access_code_cn", nullptr, 190);
+            m_diagram_bmp = create_scaled_bitmap(img_str+"_cn", nullptr, 190);
         }
         else {
-            m_diagram_bmp = create_scaled_bitmap("input_access_code_en", nullptr, 190);
+            m_diagram_bmp = create_scaled_bitmap(img_str+"_en", nullptr, 190);
+        }
+    }
+    else{
+        if (language == "zh_CN") {
+            m_diagram_bmp = create_scaled_bitmap("input_access_code_x1_cn", nullptr, 190);
+        }
+        else {
+            m_diagram_bmp = create_scaled_bitmap("input_access_code_x1_en", nullptr, 190);
         }
     }
     m_diagram_img = m_diagram_bmp.ConvertToImage();
@@ -166,7 +156,7 @@ void ConnectPrinterDialog::on_input_enter(wxCommandEvent& evt)
 }
 
 
-void ConnectPrinterDialog::on_button_confirm(wxCommandEvent &event) 
+void ConnectPrinterDialog::on_button_confirm(wxCommandEvent &event)
 {
     wxString code = m_textCtrl_code->GetTextCtrl()->GetValue();
     for (char c : code) {
@@ -193,7 +183,7 @@ void ConnectPrinterDialog::on_dpi_changed(const wxRect &suggested_rect)
 
     m_button_confirm->SetCornerRadius(FromDIP(12));
     m_button_confirm->Rescale();
-    
+
     Layout();
     this->Refresh();
 }

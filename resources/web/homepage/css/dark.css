@@ -33,7 +33,7 @@ body
 /*----Left Menu Button----*/
 #LogoutBtn:hover
 {
-	background: #004942;
+	background: #0262ba;
 	color: #efeff0;
 }
 
@@ -45,7 +45,7 @@ body
 .BtnItem:hover
 {
 	color: #efeff0;
-	background-color: #004942;
+	background-color: #0262ba;
 }
 
 .BtnItem:hover .LeftIcon
@@ -56,7 +56,7 @@ body
 .BtnItemSelected
 {
 	color: #efeff0;
-	background-color: #004942;
+	background-color: #0262ba;
 }
 
 .BtnItemSelected .LeftIcon
@@ -67,8 +67,8 @@ body
 /*-----Right Top MenuBtn-----*/
 .MenuItem:hover
 {
-	border-color: #4db6ac;
-	background-color: #004942;
+	border-color: #2b87ff;
+	background-color: #0262ba;
 }
 
 #RecentClearAllBtn:hover
@@ -93,7 +93,7 @@ body
 /*---Staff PIck----*/
 #HotModel_Swiper
 {
-	
+
 }
 
 .HotModel_NameText

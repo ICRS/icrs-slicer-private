@@ -37,7 +37,7 @@
 #define AUFILE_GREY500 wxColour(158, 158, 158)
 #define AUFILE_GREY300 wxColour(238, 238, 238)
 #define AUFILE_GREY200 wxColour(248, 248, 248)
-#define AUFILE_BRAND wxColour(0, 10, 156)
+#define AUFILE_BRAND wxColour(0xff8500)
 #define AUFILE_BRAND_TRANSPARENT wxColour(215, 232, 222)
 //#define AUFILE_PICTURES_SIZE wxSize(FromDIP(300), FromDIP(300))
 //#define AUFILE_PICTURES_PANEL_SIZE wxSize(FromDIP(300), FromDIP(340))
@@ -66,17 +66,18 @@ private:
     wxString   m_project_home_url;
     wxString   m_root_dir;
     static inline int m_sequence_id = 8000;
-    
+
 
 public:
     ProjectPanel(wxWindow *parent, wxWindowID id = wxID_ANY, const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize, long style = wxTAB_TRAVERSAL);
     ~ProjectPanel();
 
-    
+
+    void onWebNavigating(wxWebViewEvent& evt);
     void on_reload(wxCommandEvent& evt);
     void on_size(wxSizeEvent &event);
     void on_navigated(wxWebViewEvent& event);
-   
+
     void msw_rescale();
     void update_model_data();
     void clear_model_info();
