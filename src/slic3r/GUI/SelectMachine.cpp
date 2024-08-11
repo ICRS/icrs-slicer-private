@@ -2380,37 +2380,37 @@ void SelectMachineDialog::show_errors(wxString &info)
 
 void SelectMachineDialog::on_ok_btn(wxCommandEvent &event)
 {
-    bool send_print = false;
+    // bool send_print = false;
 
-    Slic3r::Http http = Slic3r::Http::get(ICRS_ENABLE_PRINT_ENDPOINT);
-    http.timeout_connect(1)
-        .timeout_max(1)
-        .on_complete([&send_print](std::string body, unsigned status) {
-            try {
-                if (body == "True") {
-                    BOOST_LOG_TRIVIAL(info) << "Sending Print";
-                    send_print = true;
-                }
-                else {
-                    BOOST_LOG_TRIVIAL(info) << "Failed to get verification";
-                }
-            }
-            catch (...) {
-                BOOST_LOG_TRIVIAL(error) << "Error somewhere!";
+    // Slic3r::Http http = Slic3r::Http::get(ICRS_ENABLE_PRINT_ENDPOINT);
+    // http.timeout_connect(1)
+    //     .timeout_max(1)
+    //     .on_complete([&send_print](std::string body, unsigned status) {
+    //         try {
+    //             if (body == "True") {
+    //                 BOOST_LOG_TRIVIAL(info) << "Sending Print";
+    //                 send_print = true;
+    //             }
+    //             else {
+    //                 BOOST_LOG_TRIVIAL(info) << "Failed to get verification";
+    //             }
+    //         }
+    //         catch (...) {
+    //             BOOST_LOG_TRIVIAL(error) << "Error somewhere!";
 
-            }
-        }).on_error(
-            [](std::string body, std::string error, unsigned int status) {
-                BOOST_LOG_TRIVIAL(error) << "Error on Request or Timeout";
-        }).perform_sync();
+    //         }
+    //     }).on_error(
+    //         [](std::string body, std::string error, unsigned int status) {
+    //             BOOST_LOG_TRIVIAL(error) << "Error on Request or Timeout";
+    //     }).perform_sync();
 
-    if(!send_print)
-    {
-        auto m_scanner_dlg = new ScannerAlertDialog(); // TODO: new API
-        m_scanner_dlg->ShowModal();
+    // if(!send_print)
+    // {
+    //     auto m_scanner_dlg = new ScannerAlertDialog(); // TODO: new API
+    //     m_scanner_dlg->ShowModal();
 
-        return;
-    };
+    //     return;
+    // };
 
 
     bool has_slice_warnings = false;

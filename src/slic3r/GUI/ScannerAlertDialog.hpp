@@ -26,7 +26,7 @@ class ScannerAlertDialog : public DPIDialog
 {
 
     public:
-    ScannerAlertDialog() : DPIDialog(static_cast<wxWindow *>(wxGetApp().mainframe), wxID_ANY, _L("Scanner Alert"), wxDefaultPosition, wxDefaultSize, wxCAPTION | wxCLOSE_BOX)
+    ScannerAlertDialog(std::string errorMsg) : DPIDialog(static_cast<wxWindow *>(wxGetApp().mainframe), wxID_ANY, _L("Scanner Alert"), wxDefaultPosition, wxDefaultSize, wxCAPTION | wxCLOSE_BOX)
     {
         Bind(wxEVT_CLOSE_WINDOW, [this](wxCloseEvent& event){ this->EndModal(wxID_CANCEL); });
 
@@ -41,9 +41,7 @@ class ScannerAlertDialog : public DPIDialog
         sizer_top->Add(0, FromDIP(40));
 
 
-        auto error_message = "Place card on scanner and make sure induction has been completed!\nContact committee if you need help";
-        // SetIcon(wxIcon(encode_path(icon_path.c_str()), wxBITMAP_TYPE_ICO));
-        m_body = new wxStaticText(this, wxID_ANY, _L(error_message), wxDefaultPosition, wxDefaultSize, 0);
+        m_body = new wxStaticText(this, wxID_ANY, _L(errorMsg), wxDefaultPosition, wxDefaultSize, 0);
         m_body->SetFont(Label::Body_15);
         m_body->SetForegroundColour(wxColour(255, 255, 255));
         m_body->Wrap(-1);

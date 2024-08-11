@@ -1542,23 +1542,40 @@ wxBoxSizer* MainFrame::create_side_tools()
                     total_time_all_plates += plate_time_mode.time;
                 }
 
-                std::time_t curr_time = std::time(NULL);
-	            std::tm *tm_local = std::localtime(&curr_time);
-                int hour = tm_local->tm_hour;
+                bool send_print = false;
+                std::string errorMsg ="";
 
-                bool isLessThan3hours = (total_time_all_plates < 3 * 60 * 60);
-                bool after10 = (hour > 22);
-                bool isLessThan9Hours = (total_time_all_plates < 9 * 60 * 60);
+                std::string endPoint = ICRS_ENABLE_PRINT_ENDPOINT+"?time_seconds="+std::to_string(total_time_all_plates);
 
-                bool afterHoursPrint = after10 && isLessThan9Hours;
+                Slic3r::Http http = Slic3r::Http::get(endPoint);
+                http.timeout_connect(1)
+                    .timeout_max(1)
+                    .on_complete([&send_print](std::string body, unsigned status) {
+                        try {
+                            BOOST_LOG_TRIVIAL(info) << "Sending Print";
+                            send_print = true;
+                        }
+                        catch (...) {
+                            BOOST_LOG_TRIVIAL(error) << "Error somewhere!";
+                            errorMsg = "Unknown Error";
+                            send_print = false;
+                        }
+                    }).on_error(
+                        [](std::string body, std::string error, unsigned int status) {
+                            errorMsg = error;
+                            BOOST_LOG_TRIVIAL(error) << errorMsg;
+                            send_print = false;
+                    }).perform_sync();
 
-                m_print_enable = get_enable_print_status() && (isLessThan3hours || afterHoursPrint);
-                m_print_btn->Enable(m_print_enable);
-
-                if(!m_print_enable) {
-                    auto m_scanner_dlg = new PrintTimeAlert();
+                if(!send_print)
+                {
+                    auto m_scanner_dlg = new ScannerAlertDialog(errorMsg);
                     m_scanner_dlg->ShowModal();
-                }
+
+                    return;
+                };
+
+
                 else if (m_print_select == ePrintPlate) wxPostEvent(m_plater, SimpleEvent(EVT_GLTOOLBAR_PRINT_PLATE));
             }
         });
