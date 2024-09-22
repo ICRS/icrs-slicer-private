@@ -78,6 +78,7 @@
 #include "../Utils/Http.hpp"
 
 // ICRS Configs
+#include "ICRSConfig.hpp"
 #include "PrintTimeAlert.hpp"
 
 #include "../Utils/Http.hpp"
@@ -1527,7 +1528,7 @@ wxBoxSizer* MainFrame::create_side_tools()
             //this->m_plater->select_view_3D("Preview");
             if (m_print_select == ePrintAll || m_print_select == ePrintPlate)
             {
-                // TODO: signin here;
+                // TODO: signin here; Move this to send button
                 m_plater->apply_background_progress();
                 // check valid of print
                 auto m_time_estimate_mode = PrintEstimatedStatistics::ETimeMode::Normal;
@@ -1545,15 +1546,17 @@ wxBoxSizer* MainFrame::create_side_tools()
                 bool send_print = false;
                 std::string errorMsg ="";
 
+                unsigned int serverStatus = 500;
                 std::string endPoint = ICRS_ENABLE_PRINT_ENDPOINT+"?time_seconds="+std::to_string(total_time_all_plates);
 
                 Slic3r::Http http = Slic3r::Http::get(endPoint);
                 http.timeout_connect(1)
                     .timeout_max(1)
-                    .on_complete([&send_print](std::string body, unsigned status) {
+                    .on_complete([&send_print, &serverStatus, &errorMsg](std::string body, unsigned status) {
                         try {
                             BOOST_LOG_TRIVIAL(info) << "Sending Print";
                             send_print = true;
+                            serverStatus = status;
                         }
                         catch (...) {
                             BOOST_LOG_TRIVIAL(error) << "Error somewhere!";
@@ -1561,13 +1564,14 @@ wxBoxSizer* MainFrame::create_side_tools()
                             send_print = false;
                         }
                     }).on_error(
-                        [](std::string body, std::string error, unsigned int status) {
+                        [&errorMsg, &serverStatus](std::string body, std::string error, unsigned int status) {
                             errorMsg = error;
                             BOOST_LOG_TRIVIAL(error) << errorMsg;
                             send_print = false;
+                            serverStatus = status;
                     }).perform_sync();
 
-                if(!send_print)
+                if(!send_print || serverStatus != 200)
                 {
                     auto m_scanner_dlg = new ScannerAlertDialog(errorMsg);
                     m_scanner_dlg->ShowModal();
